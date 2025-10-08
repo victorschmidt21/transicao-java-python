@@ -1,0 +1,61 @@
+# Ambiente virtual
+
+venv/
+.env
+*.env
+
+# Arquivos de cache e compilados do Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Arquivos de banco de dados locais
+
+db.sqlite3
+*.db
+
+# Configurações de IDEs e editores
+
+.vscode/
+.idea/
+*.swp
+
+# Logs e arquivos temporários
+
+*.log
+*.pot
+*.pyc
+*.pyo
+*.~
+*.bak
+*.tmp
+
+# Arquivos de mídia e uploads locais
+
+/media/
+staticfiles/
+static_root/
+node_modules/
+
+# Build e distribuição
+
+build/
+dist/
+*.egg-info/
+
+# Django-specific
+
+*.mo
+local_settings.py
+
+# Sistema operacional
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+
+docker-compose.override.yml
+*.pid
