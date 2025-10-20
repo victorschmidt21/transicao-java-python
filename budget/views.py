@@ -6,7 +6,7 @@ def view_index(request):
     return render(request, 'index.html')
 
 def view_create(request):
-    return 'Create'
+    return render(request, 'create.html')
 
 def view_edit(request):
     return 'Edit'

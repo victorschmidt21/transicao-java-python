@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GestãoApp</title>
+
+  <style>
+    /* RESET E CONFIGURAÇÕES GERAIS */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #111827;
+      color: #d9d9d9;
+      height: 100vh;
+      overflow: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* LAYOUT PRINCIPAL */
+    .root { display: flex; width: 100%; height: 100%; }
+
+    /* NAV LATERAL */
+    .nav {
+      background-color: #1f2937;
+      width: 260px;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2rem;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    .nav h2 { font-weight: 700; font-size: 1.5rem; margin-bottom: 2rem; }
+    .nav ul { list-style: none; display:flex; flex-direction: column; gap: 1.5rem; }
+    .nav ul li a { font-size: 1rem; color: #d9d9d9; transition: color 0.2s ease; }
+    .nav ul li a:hover { color: #fff; }
+    .nav ul li a.selected {
+      font-weight: 700;
+      border-bottom: 2px solid #1d4ed8;
+      padding-bottom: 4px;
+      color: #fff;
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    .main-container { flex: 1; padding: 2rem; overflow-y: auto; display:flex; flex-direction: column; gap: 2rem; }
+    header h1 { font-size: 2rem; font-weight: 700; }
+    .content { width: 100%; max-width: 1200px; display:flex; flex-direction:column; gap: 2rem; }
+
+    /* FORMULÁRIO DE VENDA */
+    .sale-form {
+      background-color: #1f2937;
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    select, input {
+      background-color: #374151;
+      border: none;
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      min-width: 180px;
+    }
+
+    .add-product-btn {
+      background-color: #7c3aed;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .add-product-btn:hover {
+      background-color: #8b5cf6;
+    }
+
+    /* TABELA DE PRODUTOS */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #111827;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #374151;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #2e2e2e;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .delete-btn {
+      background-color: #dc2626;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .delete-btn:hover {
+      background-color: #ef4444;
+    }
+
+    .delete-btn svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    .total-row {
+      background-color: #1f2937;
+      display: flex;
+      justify-content: flex-end;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0 0 10px 10px;
+    }
+
+    .total-row span {
+      margin-left: 1rem;
+    }
+
+    /* BOTÕES FINAIS */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-start;
+    }
+
+    .btn-save {
+      background-color: #7c3aed;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 0.9rem 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-save:hover { background-color: #8b5cf6; }
+
+    .btn-cancel {
+      background-color: #4b5563;
+      border: none;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 8px;
+      padding: 0.9rem 1.5rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-cancel:hover { opacity: 0.85; }
+
+    @media (max-width: 768px) {
+      .form-row { flex-direction: column; align-items: stretch; }
+      select, input { width: 100%; }
+      table { font-size: 0.9rem; }
+    }
+
+    @media (max-width: 992px) {
+      .root { flex-direction: column; }
+      .nav {
+        flex-direction: row; justify-content: space-between; width:100%; padding:1rem 2rem;
+        position: sticky; top:0; z-index:10;
+      }
+      .nav ul { flex-direction: row; flex-wrap:wrap; gap:1rem; }
+      .main-container { padding:1.5rem; }
+      header h1 { font-size:1.75rem; }
+    }
+    @media (max-width: 600px) {
+      .actions { flex-direction: column; align-items: stretch; }
+      .searcher { width:100%; }
+      .searcher input { max-width:100%; }
+      table { font-size:0.9rem; }
+      th, td { padding:0.75rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="root">
+    <nav class="nav">
+      <h2>Gestão - App</h2>
+      <ul>
+        <li><a href="/client">Clientes</a></li>
+        <li><a href="/budget" class="selected">Orçamentos</a></li>
+        <li><a href="/employee">Funcionários</a></li>
+        <li><a href="/order">Vendas</a></li>
+        <li><a href="/supplier">Fornecedores</a></li>
+        <li><a href="/product">Produtos</a></li>
+      </ul>
+    </nav>
+
+    <main class="main-container">
+      <header><h1><a href="/budget">←</a> Cadastro de venda</h1></header>
+
+      <section class="content">
+        <div class="sale-form">
+          <div class="form-row">
+            <select>
+              <option>Selecione o cliente</option>
+              <option>Cliente 1</option>
+              <option>Cliente 2</option>
+            </select>
+
+            <select>
+              <option>Selecione o produto</option>
+              <option>Bolacha Trakinas</option>
+              <option>Refrigerante Coca-Cola</option>
+            </select>
+
+            <input type="number" placeholder="Quantidade" />
+
+            <button class="add-product-btn">Adicionar produto</button>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>V. unitário</th>
+                <th>V. total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Bolacha Trakinas</td>
+                <td>2</td>
+                <td>R$ 2,50</td>
+                <td>R$ 5,00</td>
+                <td><button class="delete-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button></td>
+              </tr>
+              <tr>
+                <td>Bolacha Trakinas</td>
+                <td>2</td>
+                <td>R$ 2,50</td>
+                <td>R$ 5,00</td>
+                <td><button class="delete-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button></td>
+              </tr>
+              <tr>
+                <td>Bolacha Trakinas</td>
+                <td>2</td>
+                <td>R$ 2,50</td>
+                <td>R$ 5,00</td>
+                <td><button class="delete-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button></td>
+              </tr>
+              <tr>
+                <td>Bolacha Trakinas</td>
+                <td>2</td>
+                <td>R$ 2,50</td>
+                <td>R$ 5,00</td>
+                <td><button class="delete-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="total-row">
+            Valor Total: <span>R$ 20,00</span>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn-save">Cadastrar venda</button>
+            <button class="btn-cancel">Cancelar</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+''''''''''
