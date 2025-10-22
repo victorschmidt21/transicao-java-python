@@ -1,11 +1,34 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from . import models
+import json
+
 
 # Create your views here.
 
 def view_index(request):
-    return render(request, 'index.html')
+    budgets = models.Budget.objects.all()
+    return render(request, 'index.html', {'budgets': budgets})
 
 def view_create(request):
+    if request.method == 'POST':
+        cliente_id = request.POST.get('cliente')
+        products_json = request.POST.get('products')  # vem como string JSON
+
+        try:
+            products = json.loads(products_json) if products_json else []
+        except json.JSONDecodeError:
+            products = []
+
+        # Exemplo: processar os produtos
+        for p in products:
+            print(f"Produto: {p['name']} | Qtd: {p['quantity']} | Total: {p['total_value']}")
+
+        # Aqui você pode salvar no banco normalmente
+        # ...
+
+        return HttpResponse("Venda cadastrada com sucesso!")
+
     return render(request, 'create.html')
 
 def view_edit(request):

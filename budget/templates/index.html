@@ -160,16 +160,18 @@
               <th>Ações</th>
             </tr>
             <tr>
-              <td>001</td>
-              <td>José</td>
-              <td>31/10/2006</td>
-              <td>R$ 100,00</td>
-              <td>
-                <div class="action">
-                  <button class="edit" aria-label="Editar orçamento 001">Editar</button>
-                  <button class="delete" aria-label="Excluir orçamento 001">Excluir</button>
-                </div>
-              </td>
+            {% for budget in budgets %}
+                <td>{{ budget.id }}</td>
+                <td>{{ budget.client_id }}</td>
+                <td>{{ budget.created_at }}</td>
+                <td>R$ {{ budget.total_value }}</td>
+                <td>
+                    <div class="action">
+                    <button class="edit" aria-label="Editar orçamento {{ budget.id }}">Editar</button>
+                    <button class="delete" aria-label="Excluir orçamento {{ budget.id }}">Excluir</button>
+                    </div>
+                </td>
+            {% endfor %}
             </tr>
           </table>
         </div>
