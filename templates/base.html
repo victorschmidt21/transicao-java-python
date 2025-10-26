@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GestãoApp - {% block title %}{% endblock %}</title>
+
+  <style>
+    /* RESET E CONFIGURAÇÕES GERAIS */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", sans-serif;
+      background-color: #111827;
+      color: #d9d9d9;
+      height: 100vh;
+      overflow: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    
+    /* MENSAGENS */
+    .messages {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      max-width: 400px;
+    }
+    .message {
+      padding: 1rem 1.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.3s ease-out;
+      position: relative;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+    
+    .message.sliding-out {
+      animation: slideOut 0.3s ease-in forwards;
+    }
+    
+    .message-content {
+      flex: 1;
+      color: white;
+    }
+    
+    .message.success {
+      background-color: #10b981;
+      color: white;
+    }
+    .message.error {
+      background-color: #ef4444;
+      color: white;
+    }
+    .message.info {
+      background-color: #3b82f6;
+      color: white;
+    }
+    .message.warning {
+      background-color: #f59e0b;
+      color: white;
+    }
+    
+    .message-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+      flex-shrink: 0;
+    }
+    
+    .message-close:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .message-close::before {
+      content: '×';
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    /* LAYOUT PRINCIPAL */
+    .root { display: flex; width: 100%; height: 100%; }
+
+    /* NAV LATERAL */
+    .nav {
+      background-color: #1f2937;
+      width: 260px;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2rem;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    .nav h2 { 
+      font-weight: 700; 
+      font-size: 1.5rem; 
+      margin-bottom: 2rem; 
+      position: relative;
+    }
+    
+    .nav h2::before,
+    .nav h2::after {
+      display: none !important;
+      content: none !important;
+    }
+    
+    /* Garantir que não há nenhum X no menu */
+    .nav *::before,
+    .nav *::after {
+      content: none !important;
+    }
+    
+    .nav {
+      position: relative;
+    }
+    
+    .nav::before,
+    .nav::after {
+      display: none !important;
+      content: none !important;
+    }
+    .nav ul { list-style: none; display:flex; flex-direction: column; gap: 1.5rem; }
+    .nav ul li a { 
+      font-size: 1rem; 
+      color: #d9d9d9; 
+      transition: color 0.2s ease; 
+      pointer-events: auto;
+      cursor: pointer;
+      display: block;
+      padding: 0.5rem 0;
+    }
+    .nav ul li a:hover { color: #fff; }
+    .nav ul li a.selected {
+      font-weight: 700;
+      border-bottom: 2px solid #1d4ed8;
+      padding-bottom: 4px;
+      color: #fff;
+    }
+
+    /* CONTEÚDO PRINCIPAL */
+    .main-container { flex: 1; padding: 2rem; overflow-y: auto; display:flex; flex-direction: column; gap: 2rem; }
+    header h1 { font-size: 2rem; font-weight: 700; }
+    .content { width: 100%; max-width: 1200px; display:flex; flex-direction:column; gap: 1rem; margin: 0 auto; }
+
+    /* AÇÕES E PESQUISA */
+    .actions { display:flex; flex-wrap:wrap; gap: 1rem; justify-content: space-between; align-items: center; }
+    .actions a {
+      background-color: #1d4ed8;
+      border-radius: 10px;
+      padding: 0.8rem 1.5rem;
+      color: #d9d9d9;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+    .actions a:hover { background-color: #2a5add; }
+
+    .searcher { display:flex; align-items:center; gap:0.5rem; flex-wrap:nowrap; }
+    .searcher input {
+      width:100%; max-width:350px; padding:0.6rem 1rem; background-color:#374151; border:none; border-radius:10px; color:#fff;
+    }
+
+    .searcher button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 0.7rem;
+      background-color: #1d4ed8;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.2s ease, opacity 0.15s ease;
+    }
+    .searcher button:hover { background-color: #2a5add; opacity: 0.95; }
+
+    .searcher button svg { width: 18px; height: 18px; display:block; }
+
+    /* TABELA */
+    .wrapper-table { width:100%; border-radius:16px; overflow-x:auto; overflow-y:auto; background-color:#1f2937; }
+    table { width:100%; border-collapse: collapse; min-width:600px; }
+    th {
+      position: sticky; top: 0; background-color:#374151; padding:1rem; text-align:left; color:#9ba2af;
+      font-weight:700; font-size:1rem;
+    }
+    td { padding:1rem; border-top:1px solid #2c3542; color:#fff; font-size:1rem; }
+
+    .data-table .action { display:flex; gap:0.5rem; justify-content:center; }
+    .edit { background-color:#1d4ed8; }
+    .delete { background-color:#ff0000; }
+    .convert { background-color:#37a737; }
+    .edit, .delete, .convert {
+      padding:0.5rem 0.8rem; border-radius:8px; color:#fff; font-weight:600; cursor:pointer;
+    }
+    .edit:hover, .delete:hover, .convert:hover { opacity:0.9; }
+
+    /* FORMULÁRIO - Estilos básicos apenas */
+    .form-container {
+      background-color: #1f2937;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: #fff;
+    }
+    .btn-danger {
+      background-color: #ef4444;
+      color: #fff;
+    }
+    .btn-danger:hover {
+      background-color: #dc2626;
+    }
+
+    /* MENU LATERAL COM OVERLAY */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1001;
+      background: #1f2937;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: opacity 0.3s ease;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .menu-toggle.hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+    
+    /* Esconder botão quando menu estiver aberto */
+    .nav.open ~ .menu-toggle {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .menu-overlay.active ~ .menu-toggle {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Garantir que o botão fique escondido quando menu estiver aberto */
+    .nav.open + .menu-overlay ~ .menu-toggle {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      margin: 5px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+
+    .menu-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .menu-overlay.active {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+
+
+    /* RESPONSIVIDADE */
+    @media (max-width: 1200px) {
+      .content { max-width: 100%; padding: 0 1rem; }
+    }
+    
+    @media (max-width: 992px) {
+      .root { 
+        flex-direction: row; 
+        position: relative;
+      }
+      
+      .menu-toggle {
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        z-index: 1002 !important;
+      }
+      
+      /* Garantir que o botão seja clicável quando menu fechado */
+      .menu-toggle:not(.hidden) {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+      
+      .nav {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 260px;
+        min-width: 200px;
+        height: 100vh;
+        background-color: #1f2937;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+        color: #fff;
+        transition: left 0.3s ease, transform 0.2s ease;
+        z-index: 1000;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        touch-action: pan-y;
+      }
+      
+      .nav.open {
+        left: 0;
+      }
+      
+      .nav h2 { 
+        font-weight: 700; 
+        font-size: 1.5rem; 
+        margin-bottom: 2rem; 
+      }
+      
+      .nav ul { 
+        list-style: none; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 1.5rem; 
+      }
+      
+      .nav ul li a { 
+        font-size: 1rem; 
+        color: #d9d9d9; 
+        transition: color 0.2s ease; 
+        pointer-events: auto;
+        cursor: pointer;
+        display: block;
+        padding: 0.5rem 0;
+      }
+      
+      .nav ul li a:hover { 
+        color: #fff; 
+      }
+      
+      .nav ul li a.selected {
+        font-weight: 700;
+        border-bottom: 2px solid #1d4ed8;
+        padding-bottom: 4px;
+        color: #fff;
+      }
+      
+      .main-container { 
+        padding: 1.5rem; 
+        width: 100%;
+        margin-left: 0;
+        transition: margin-left 0.3s ease;
+      }
+      
+      .content { 
+        width: 100%; 
+        max-width: 100%; 
+        margin: 0;
+        padding: 0;
+      }
+      
+      header h1 { font-size: 1.75rem; }
+    }
+    
+    @media (max-width: 768px) {
+      .nav {
+        width: 260px;
+        left: -280px;
+      }
+      
+      .nav.open {
+        left: 0;
+      }
+      
+      .main-container { 
+        padding: 1rem; 
+        margin-top: 4rem;
+      }
+      
+      header h1 { font-size: 1.5rem; }
+    }
+    
+    @media (max-width: 600px) {
+      .nav {
+        width: 260px;
+        left: -280px;
+      }
+      
+      .nav.open {
+        left: 0;
+      }
+      
+      .menu-toggle {
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.5rem;
+      }
+      
+      .main-container { 
+        padding: 1rem; 
+        margin-top: 3.5rem;
+      }
+      
+      .actions { flex-direction: column; align-items: stretch; }
+      .searcher { width: 100%; }
+      .searcher input { max-width: 100%; }
+      table { font-size: 0.9rem; }
+      th, td { padding: 0.75rem; }
+      .form-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .form-container { 
+        padding: 1.5rem; 
+        margin: 0 0.5rem; 
+        width: calc(100% - 1rem);
+        max-width: none;
+      }
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <div class="root">
+    <!-- Botão de toggle para mobile -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Overlay para fechar menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- Menu lateral -->
+    <nav class="nav" id="sidebarMenu">
+      <h2>GestãoApp</h2>
+      <ul>
+        <li><a href="/customers/" class="{% if 'customers' in request.path %}selected{% endif %}">Clientes</a></li>
+        <li><a href="/budget/" class="{% if 'budget' in request.path %}selected{% endif %}">Orçamentos</a></li>
+        <li><a href="/employee/">Funcionários</a></li>
+        <li><a href="/order/">Vendas</a></li>
+        <li><a href="/supplier/">Fornecedores</a></li>
+        <li><a href="/product/">Produtos</a></li>
+      </ul>
+    </nav>
+
+    <main class="main-container">
+      {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="message {{ message.tags }}" data-message-type="{{ message.tags }}">
+              <span class="message-content">{{ message }}</span>
+              <button class="message-close" onclick="closeMessage(this)" aria-label="Fechar mensagem"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+
+  <script>
+    // Função para fechar mensagens
+    function closeMessage(button) {
+      const message = button.closest('.message');
+      message.classList.add('sliding-out');
+      
+      setTimeout(() => {
+        message.remove();
+        
+        // Se não houver mais mensagens, remover o container
+        const messagesContainer = document.querySelector('.messages');
+        if (messagesContainer && messagesContainer.children.length === 0) {
+          messagesContainer.remove();
+        }
+      }, 300);
+    }
+    
+    // Auto-fechar mensagens após 3 segundos (exceto erros)
+    document.addEventListener('DOMContentLoaded', function() {
+      const messages = document.querySelectorAll('.message');
+      
+      messages.forEach(message => {
+        const messageType = message.dataset.messageType;
+        
+        // Mensagens de erro não fecham automaticamente
+        if (messageType === 'error' || message.classList.contains('error')) {
+          return;
+        }
+        
+        // Fechar após 3 segundos
+        setTimeout(() => {
+          const closeButton = message.querySelector('.message-close');
+          if (closeButton && message.parentNode) {
+            closeMessage(closeButton);
+          }
+        }, 3000);
+      });
+    });
+    
+    // Máscaras para os campos
+    function mascaraCEP(campo) {
+      let valor = campo.value.replace(/\D/g, '');
+      valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
+      campo.value = valor;
+    }
+
+    function mascaraCPF(campo) {
+      let valor = campo.value.replace(/\D/g, '');
+      valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+      valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+      valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      campo.value = valor;
+    }
+
+    function mascaraCelular(campo) {
+      let valor = campo.value.replace(/\D/g, '');
+      valor = valor.replace(/(\d{2})(\d)/, '($1) $2');
+      valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+      valor = valor.replace(/(\d{4})-(\d)(\d{4})/, '$1$2-$3');
+      campo.value = valor;
+    }
+
+    // Busca CEP via ViaCEP
+    function buscarCEP() {
+      const cep = document.getElementById('id_zip_code').value.replace(/\D/g, '');
+      
+      if (cep.length === 8) {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then(response => response.json())
+          .then(data => {
+            if (!data.erro) {
+              document.getElementById('id_address').value = data.logradouro;
+              document.getElementById('id_neighborhood').value = data.bairro;
+              document.getElementById('id_city').value = data.localidade;
+              document.getElementById('id_state').value = data.uf;
+              document.getElementById('id_number').focus();
+            }
+          })
+          .catch(error => console.log('Erro ao buscar CEP:', error));
+      }
+    }
+
+    // Aplicar máscaras quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      // CEP
+      const cepField = document.getElementById('id_zip_code');
+      if (cepField) {
+        cepField.addEventListener('blur', buscarCEP);
+        cepField.addEventListener('input', function() { mascaraCEP(this); });
+      }
+
+      // CPF
+      const cpfField = document.getElementById('id_cpf');
+      if (cpfField) {
+        cpfField.addEventListener('input', function() { mascaraCPF(this); });
+      }
+
+      // Celular
+      const celularField = document.getElementById('id_mobile');
+      if (celularField) {
+        celularField.addEventListener('input', function() { mascaraCelular(this); });
+      }
+    });
+
+    // Controle do menu lateral
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuToggle = document.getElementById('menuToggle');
+      const sidebarMenu = document.getElementById('sidebarMenu');
+      const menuOverlay = document.getElementById('menuOverlay');
+
+      let startX = 0;
+      let currentX = 0;
+      let isDragging = false;
+      let startTime = 0;
+
+      // Abrir menu
+      function openMenu() {
+        sidebarMenu.classList.add('open');
+        menuOverlay.classList.add('active');
+        menuToggle.style.opacity = '0';
+        menuToggle.style.pointerEvents = 'none';
+        menuToggle.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Fechar menu
+      function closeMenu() {
+        sidebarMenu.classList.remove('open');
+        menuOverlay.classList.remove('active');
+        menuToggle.style.opacity = '1';
+        menuToggle.style.pointerEvents = 'auto';
+        menuToggle.classList.remove('hidden');
+        document.body.style.overflow = '';
+      }
+
+      // Event listeners
+      if (menuToggle) {
+        menuToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          openMenu();
+        });
+      }
+
+      if (menuOverlay) {
+        menuOverlay.addEventListener('click', closeMenu);
+      }
+
+      // Links do menu funcionam naturalmente - sem interferência do JavaScript
+
+      // Fechar menu com tecla ESC
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebarMenu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+
+      // Fechar menu ao redimensionar a tela para desktop
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 992) {
+          closeMenu();
+        }
+      });
+
+      // Gesto de arrastar para fechar (touch)
+      sidebarMenu.addEventListener('touchstart', function(e) {
+        if (!sidebarMenu.classList.contains('open')) return;
+        
+        // Verificar se o clique foi em um link
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+          return; // Não interferir com cliques em links
+        }
+        
+        startX = e.touches[0].clientX;
+        startTime = Date.now();
+        isDragging = true;
+        
+        // Prevenir scroll durante o drag
+        e.preventDefault();
+      });
+
+      sidebarMenu.addEventListener('touchmove', function(e) {
+        if (!isDragging || !sidebarMenu.classList.contains('open')) return;
+        
+        currentX = e.touches[0].clientX;
+        const deltaX = currentX - startX;
+        
+        // Só permite arrastar para a esquerda (fechar)
+        if (deltaX < 0) {
+          const translateX = Math.max(deltaX, -sidebarMenu.offsetWidth);
+          sidebarMenu.style.transform = `translateX(${translateX}px)`;
+        }
+        
+        e.preventDefault();
+      });
+
+      sidebarMenu.addEventListener('touchend', function(e) {
+        if (!isDragging || !sidebarMenu.classList.contains('open')) return;
+        
+        const deltaX = currentX - startX;
+        const deltaTime = Date.now() - startTime;
+        const velocity = Math.abs(deltaX) / deltaTime;
+        
+        // Fechar se arrastou mais de 100px ou se a velocidade foi alta
+        if (deltaX < -100 || (deltaX < -50 && velocity > 0.5)) {
+          closeMenu();
+        } else {
+          // Voltar para posição original
+          sidebarMenu.style.transform = '';
+        }
+        
+        isDragging = false;
+        sidebarMenu.style.transform = '';
+      });
+
+      // Gesto de arrastar para fechar (mouse)
+      sidebarMenu.addEventListener('mousedown', function(e) {
+        if (!sidebarMenu.classList.contains('open')) return;
+        
+        // Verificar se o clique foi em um link
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+          return; // Não interferir com cliques em links
+        }
+        
+        startX = e.clientX;
+        startTime = Date.now();
+        isDragging = true;
+        
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', function(e) {
+        if (!isDragging || !sidebarMenu.classList.contains('open')) return;
+        
+        currentX = e.clientX;
+        const deltaX = currentX - startX;
+        
+        if (deltaX < 0) {
+          const translateX = Math.max(deltaX, -sidebarMenu.offsetWidth);
+          sidebarMenu.style.transform = `translateX(${translateX}px)`;
+        }
+      });
+
+      document.addEventListener('mouseup', function(e) {
+        if (!isDragging || !sidebarMenu.classList.contains('open')) return;
+        
+        const deltaX = currentX - startX;
+        const deltaTime = Date.now() - startTime;
+        const velocity = Math.abs(deltaX) / deltaTime;
+        
+        if (deltaX < -100 || (deltaX < -50 && velocity > 0.5)) {
+          closeMenu();
+        } else {
+          sidebarMenu.style.transform = '';
+        }
+        
+        isDragging = false;
+        sidebarMenu.style.transform = '';
+      });
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

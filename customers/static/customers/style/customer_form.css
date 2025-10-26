@@ -1,0 +1,485 @@
+/* Estilos para o formulário de clientes */
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #1f2937;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsividade para formulários */
+@media (max-width: 768px) {
+  .form-container {
+    margin: 0 1rem;
+    padding: 1.5rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    margin: 0 0.5rem;
+    padding: 1rem;
+    width: calc(100% - 1rem);
+  }
+}
+
+.form-grid {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Responsividade do grid */
+@media (max-width: 768px) {
+  .form-grid {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-column {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid {
+    gap: 0.75rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #d1d5db;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem !important;
+  border: 1px solid #374151 !important;
+  border-radius: 0.375rem !important;
+  background: #374151 !important;
+  color: #f9fafb !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+/* Garantir que o texto dos inputs seja sempre visível */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"] {
+  color: #f9fafb !important;
+  background: #374151 !important;
+}
+
+.form-group input:focus {
+  color: #f9fafb !important;
+  background: #374151 !important;
+}
+
+/* Específico para o campo nome - forçando mesma cor do email */
+.form-group input[name="name"],
+.form-group input[name="name"]:focus,
+.form-group input[name="name"]:active,
+.form-group input[name="name"]:hover {
+  padding: 0.75rem !important;
+  border: 1px solid #374151 !important;
+  border-radius: 0.375rem !important;
+  background: #374151 !important;
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.form-group input[name="name"]:focus {
+  border: 1px solid #3b82f6 !important;
+  background: #374151 !important;
+  background-color: #374151 !important;
+}
+
+/* Garantir que todos os inputs tenham a mesma aparência */
+.form-group input {
+  color: #f9fafb !important;
+  background: #374151 !important;
+}
+
+/* Forçar cor de fundo igual para todos os campos */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="number"],
+.form-group input[name="name"],
+.form-group input[name="cpf"],
+.form-group input[name="mobile"],
+.form-group input[name="zip_code"],
+.form-group input[name="address"],
+.form-group input[name="neighborhood"],
+.form-group input[name="city"],
+.form-group input[name="number"] {
+  background: #374151 !important;
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+/* FLOATING LABEL STYLE PARA TODOS OS CAMPOS */
+.customer_form .form-group.floating-label {
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+
+.customer_form .form-group.floating-label input,
+.customer_form .form-group.floating-label select {
+  background: #374151 !important;
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151 !important;
+  padding: 1rem 0.75rem !important;
+  border-radius: 0.375rem !important;
+  font-size: 0.875rem !important;
+  width: 100% !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box;
+}
+
+/* Remover spinner do campo number */
+.customer_form .form-group.floating-label input[type="number"]::-webkit-inner-spin-button,
+.customer_form .form-group.floating-label input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.customer_form .form-group.floating-label input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.customer_form .form-group.floating-label label {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: #9ca3af !important;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: transparent;
+  padding: 0 0.25rem;
+  z-index: 1;
+}
+
+/* Label do select sempre flutuando */
+.customer_form .form-group.floating-label select + label {
+  top: -1rem !important;
+  left: 0.25rem !important;
+  font-size: 0.75rem !important;
+  color: #9ca3af !important;
+  transform: none !important;
+}
+
+.customer_form .form-group.floating-label input:focus + label,
+.customer_form .form-group.floating-label select:focus + label,
+.customer_form .form-group.floating-label label.floating {
+  top: -1rem;
+  left: 0.25rem;
+  font-size: 0.75rem;
+  color: #3b82f6 !important;
+  background: transparent !important;
+  transform: none;
+  z-index: 2;
+}
+
+/* Ajustar cor do label do select quando em focus */
+.customer_form .form-group.floating-label select:focus + label {
+  color: #3b82f6 !important;
+}
+
+.customer_form .form-group.floating-label input:focus,
+.customer_form .form-group.floating-label select:focus {
+  border-color: #3b82f6 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* SOBRESCREVER AUTOFILL DO NAVEGADOR PARA FLOATING LABEL */
+.customer_form .form-group.floating-label input:-webkit-autofill,
+.customer_form .form-group.floating-label input:-webkit-autofill:hover,
+.customer_form .form-group.floating-label input:-webkit-autofill:focus,
+.customer_form .form-group.floating-label input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #374151 inset !important;
+  -webkit-text-fill-color: #f9fafb !important;
+  background: #374151 !important;
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+}
+
+.form-group input:not(:placeholder-shown) {
+  color: #f9fafb !important;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #6b7280;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.form-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  margin-top: 0rem !important;
+  width: 100% !important;
+  text-align: left !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Forçar alinhamento à esquerda */
+.form-actions .btn {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Sobrescrever qualquer CSS que force alinhamento à direita */
+.customer_form .form-actions {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  align-items: flex-start !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.customer_form .form-actions * {
+  text-align: left !important;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+  height: 44px;
+  line-height: 1.2;
+}
+
+.btn-primary {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background: #2563eb !important;
+}
+
+.btn-secondary {
+  background: #374151 !important;
+  color: white !important;
+}
+
+.btn-secondary:hover {
+  background: #4b5563 !important;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* Garantir que os botões tenham o mesmo tamanho */
+.form-actions .btn {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 120px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-sizing: border-box;
+}
+
+/* Forçar o mesmo tamanho para todos os botões */
+.form-actions .btn-primary,
+.form-actions .btn-secondary {
+  width: 120px;
+  height: 44px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Responsividade dos botões */
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Correções específicas para problemas reportados */
+.form-group input[name="name"] {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border: 1px solid #374151 !important;
+}
+
+.form-group input[name="name"]:focus {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Garantir que os botões tenham exatamente o mesmo tamanho */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.form-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Forçar estilos específicos para resolver problemas */
+.customer_form .form-group input[name="name"] {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border: 1px solid #374151 !important;
+}
+
+.customer_form .form-group input[name="name"]:focus {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Garantir que os botões tenham o mesmo tamanho exato */
+.customer_form .form-actions .btn {
+  width: 120px !important;
+  height: 44px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Correção final para o campo nome */
+.customer_form .form-group input[name="name"] {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border: 1px solid #374151 !important;
+  -webkit-text-fill-color: #f9fafb !important;
+  -webkit-box-shadow: 0 0 0 1000px #111827 inset !important;
+}
+
+.customer_form .form-group input[name="name"]:focus {
+  color: #f9fafb !important;
+  background: #111827 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  -webkit-text-fill-color: #f9fafb !important;
+  -webkit-box-shadow: 0 0 0 1000px #111827 inset !important;
+}
+
+/* Garantir que os botões tenham exatamente o mesmo tamanho */
+.customer_form .form-actions .btn {
+  width: 120px !important;
+  height: 44px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
+
+/* Correção final para garantir que os botões tenham o mesmo tamanho */
+.customer_form .form-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+
+.customer_form .form-actions .btn-primary,
+.customer_form .form-actions .btn-secondary {
+  width: 120px !important;
+  height: 44px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
