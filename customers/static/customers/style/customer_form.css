@@ -220,6 +220,18 @@
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
 }
 
+/* Prevenir que o ícone do select fique branco no hover */
+.customer_form .form-group.floating-label select:hover {
+  background: #374151 !important;
+  background-color: #374151 !important;
+  border-color: #374151 !important;
+}
+
+.customer_form .form-group.floating-label select:hover option {
+  background: #374151 !important;
+  background-color: #374151 !important;
+}
+
 /* SOBRESCREVER AUTOFILL DO NAVEGADOR PARA FLOATING LABEL */
 .customer_form .form-group.floating-label input:-webkit-autofill,
 .customer_form .form-group.floating-label input:-webkit-autofill:hover,
@@ -368,13 +380,13 @@
 /* Correções específicas para problemas reportados */
 .form-group input[name="name"] {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border: 1px solid #374151 !important;
 }
 
 .form-group input[name="name"]:focus {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
@@ -399,13 +411,13 @@
 /* Forçar estilos específicos para resolver problemas */
 .customer_form .form-group input[name="name"] {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border: 1px solid #374151 !important;
 }
 
 .customer_form .form-group input[name="name"]:focus {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
@@ -424,22 +436,22 @@
   box-sizing: border-box !important;
 }
 
-/* Correção final para o campo nome */
+/* Correção final para o campo nome - mesma cor dos demais campos */
 .customer_form .form-group input[name="name"] {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border: 1px solid #374151 !important;
   -webkit-text-fill-color: #f9fafb !important;
-  -webkit-box-shadow: 0 0 0 1000px #111827 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #374151 inset !important;
 }
 
 .customer_form .form-group input[name="name"]:focus {
   color: #f9fafb !important;
-  background: #111827 !important;
+  background: #374151 !important;
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
   -webkit-text-fill-color: #f9fafb !important;
-  -webkit-box-shadow: 0 0 0 1000px #111827 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px #374151 inset !important;
 }
 
 /* Garantir que os botões tenham exatamente o mesmo tamanho */

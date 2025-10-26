@@ -597,6 +597,12 @@
               document.getElementById('id_neighborhood').value = data.bairro;
               document.getElementById('id_city').value = data.localidade;
               document.getElementById('id_state').value = data.uf;
+              
+              // Atualizar os floating labels após preencher os campos
+              if (window.updateFloatingLabels) {
+                window.updateFloatingLabels(['id_address', 'id_neighborhood', 'id_city', 'id_state']);
+              }
+              
               document.getElementById('id_number').focus();
             }
           })

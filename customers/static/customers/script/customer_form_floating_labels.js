@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Função global para atualizar labels de campos específicos
+  window.updateFloatingLabels = function(fieldIds) {
+    fieldIds.forEach(fieldId => {
+      const input = document.getElementById(fieldId);
+      if (input) {
+        handleFloatingLabel(input);
+      }
+    });
+  };
+
   // Aplicar a todos os inputs e selects
   const inputs = document.querySelectorAll('.floating-label input, .floating-label select');
   
