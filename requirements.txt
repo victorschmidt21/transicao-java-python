@@ -1,0 +1,22 @@
+# Django Framework
+Django==5.2.7
+
+# Banco de dados (SQLite já incluído no Python)
+# Para produção, considere usar PostgreSQL ou MySQL:
+# psycopg2-binary==2.9.9  # Para PostgreSQL
+# mysqlclient==2.2.4      # Para MySQL
+
+# Validação de CPF (opcional - para validação mais robusta)
+# cpf==2.0.0
+
+# Formatação de campos (opcional)
+# django-localflavor==4.3  # Para campos específicos do Brasil
+
+# Desenvolvimento
+# django-debug-toolbar==4.2.0  # Para debug em desenvolvimento
+# django-extensions==3.2.3     # Para comandos úteis de desenvolvimento
+
+# Produção
+# gunicorn==21.2.0           # Servidor WSGI para produção
+# whitenoise==6.6.0          # Para servir arquivos estáticos
+# python-decouple==3.8       # Para gerenciar variáveis de ambiente
