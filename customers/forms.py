@@ -90,7 +90,7 @@ class CustomerForm(forms.ModelForm):
         self.fields['name'].required = True
         self.fields['name'].error_messages = {
             'required': 'Nome é obrigatório',
-            'max_length': 'Nome deve ter menos de 100 caracteres'
+            'max_length': 'Nome muito longo'
         }
     
     def clean_name(self):
@@ -99,7 +99,7 @@ class CustomerForm(forms.ModelForm):
         if not name:
             raise ValidationError('Nome é obrigatório')
         if len(name.strip()) < 2:
-            raise ValidationError('Nome deve ter pelo menos 2 caracteres')
+            raise ValidationError('Nome muito curto')
         return name.strip()
     
     def clean_cpf(self):
@@ -131,10 +131,10 @@ class CustomerForm(forms.ModelForm):
             # Check if email is already in use by another customer
             if self.instance.pk:
                 if Customer.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
-                    raise ValidationError('E-mail já cadastrado')
+                    raise ValidationError('E-mail já existe')
             else:
                 if Customer.objects.filter(email=email).exists():
-                    raise ValidationError('E-mail já cadastrado')
+                    raise ValidationError('E-mail já existe')
         return email
     
     def clean_mobile(self):
@@ -146,7 +146,7 @@ class CustomerForm(forms.ModelForm):
             
             # Check if it has 10 or 11 digits
             if len(mobile_clean) not in [10, 11]:
-                raise ValidationError('Celular deve ter 10 ou 11 dígitos')
+                raise ValidationError('Celular inválido')
             
             # Check if it starts with valid area code for 11 digits
             if len(mobile_clean) == 11:
@@ -166,7 +166,7 @@ class CustomerForm(forms.ModelForm):
             
             # Check if it has 8 digits
             if len(zip_code_clean) != 8:
-                raise ValidationError('CEP deve ter 8 dígitos')
+                raise ValidationError('CEP inválido')
             
             return zip_code_clean
         return zip_code
@@ -176,9 +176,9 @@ class CustomerForm(forms.ModelForm):
         number = self.cleaned_data.get('number')
         if number is not None:
             if number < 1:
-                raise ValidationError('Número deve ser maior que 0')
+                raise ValidationError('Número inválido')
             if number > 99999:
-                raise ValidationError('Número deve ser menor que 100000')
+                raise ValidationError('Número muito grande')
         return number
     
     def _validate_cpf_algorithm(self, cpf):

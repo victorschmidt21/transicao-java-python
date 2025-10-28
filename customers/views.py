@@ -23,7 +23,7 @@ def customer_list(request):
         return render(request, 'customers/customer_list.html', context)
         
     except Exception as e:
-        messages.error(request, 'Ocorreu um erro ao carregar clientes')
+        messages.error(request, 'Erro ao carregar lista de clientes')
         return render(request, 'customers/customer_list.html', {'customers': []})
 
 def customer_create(request):
@@ -38,13 +38,13 @@ def customer_create(request):
                 return redirect('customers:customer_list')
                 
         except ValidationError as e:
-            messages.error(request, f'Erro de validação: {str(e)}')
+            messages.error(request, 'Dados inválidos')
             
         except IntegrityError as e:
-            messages.error(request, 'Cliente com estes dados já existe')
+            messages.error(request, 'Cliente já existe')
             
         except Exception as e:
-            messages.error(request, 'Ocorreu um erro inesperado')
+            messages.error(request, 'Erro ao cadastrar cliente')
     else:
         form = CustomerForm()
     
@@ -60,12 +60,22 @@ def customer_edit(request, id):
         customer = get_object_or_404(Customer, id=id)
         
         if request.method == 'POST':
-            form = CustomerForm(request.POST, instance=customer)
-            
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Cliente atualizado com sucesso!')
-                return redirect('customers:customer_list')
+            try:
+                form = CustomerForm(request.POST, instance=customer)
+                
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Cliente atualizado com sucesso!')
+                    return redirect('customers:customer_list')
+                    
+            except ValidationError as e:
+                messages.error(request, 'Dados inválidos')
+                
+            except IntegrityError as e:
+                messages.error(request, 'Dados já existem')
+                
+            except Exception as e:
+                messages.error(request, 'Erro ao atualizar cliente')
         else:
             form = CustomerForm(instance=customer)
         
@@ -83,7 +93,7 @@ def customer_edit(request, id):
 def customer_delete(request, id):
     """Exclui um cliente"""
     if request.method not in ['POST', 'DELETE']:
-        messages.error(request, 'Método não permitido')
+        messages.error(request, 'Acesso negado')
         return redirect('customers:customer_list')
     
     try:
