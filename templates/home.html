@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="content">
+  <header>
+    {% if user.is_authenticated %}
+      <h1>Bem-vindo, {{ user.first_name|default:user.username }}!</h1>
+    {% else %}
+      <h1>Bem-vindo ao GestãoApp</h1>
+      <p style="color: #9ba2af; font-size: 1.1rem; margin-top: 0.5rem;">
+        <a href="{% url 'login' %}" style="color: #1d4ed8; font-weight: 600;">Faça login</a> para acessar o sistema.
+      </p>
+    {% endif %}
+  </header>
+</div>
+{% endblock %}

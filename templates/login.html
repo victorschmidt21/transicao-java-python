@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Gestão App</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: #1a1d29;
+      color: #e5e7eb;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .login-container {
+      background: #262b3d;
+      border-radius: 20px;
+      padding: 3.5rem 3rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    .login-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .login-header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .login-header p {
+      color: #94a3b8;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      color: #f1f5f9;
+      font-weight: 600;
+      margin-bottom: 0.625rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.01em;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      background-color: #1e2433;
+      border: 1.5px solid #374151;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      background-color: #1a1f2e;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: #64748b;
+    }
+
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #3b82f6;
+    }
+
+    .remember-me label {
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .forgot-password {
+      color: #3b82f6;
+      font-size: 0.9rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-password:hover {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 0.875rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+      letter-spacing: 0.01em;
+    }
+
+    .btn-login:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-login:active {
+      transform: translateY(0);
+    }
+
+    /* Mensagens */
+    .messages {
+      margin-bottom: 1.5rem;
+    }
+
+    .message {
+      padding: 0.875rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.625rem;
+      animation: slideDown 0.3s ease-out;
+      line-height: 1.5;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .message.success {
+      background-color: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .message.error {
+      background-color: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .message.info {
+      background-color: rgba(59, 130, 246, 0.15);
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .message.warning {
+      background-color: rgba(245, 158, 11, 0.15);
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .message::before {
+      content: '●';
+      font-size: 1rem;
+      line-height: 1.5;
+      flex-shrink: 0;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      .login-container {
+        padding: 2.5rem 2rem;
+      }
+
+      .login-header h1 {
+        font-size: 1.875rem;
+      }
+
+      .login-header p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>Acesse sua conta</h1>
+      <p>Entre com suas credenciais para acessar o sistema de gestão.</p>
+    </div>
+
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="username">Seu e-mail ou usuário</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          placeholder="seu@email.com ou usuário"
+          required
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Sua senha</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Lembrar de mim</label>
+        </div>
+        <!-- Removido: link de "Esqueceu a senha?" pois não há cadastro externo -->
+      </div>
+
+      <button type="submit" class="btn-login">Entrar na conta</button>
+    </form>
+  </div>
+
+  <script>
+    // Auto-fechar mensagens de sucesso após 4 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+      const successMessages = document.querySelectorAll('.message.success, .message.info');
+      
+      successMessages.forEach(message => {
+        setTimeout(() => {
+          message.style.animation = 'slideDown 0.3s ease-out reverse';
+          setTimeout(() => {
+            message.remove();
+          }, 300);
+        }, 4000);
+      });
+    });
+  </script>
+</body>
+</html>
+
