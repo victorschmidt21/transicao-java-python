@@ -38,11 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'budget',
-<<<<<<< HEAD
-    'suppliers'
-=======
-    'customers',
->>>>>>> 57207861811b96ce604d561a83ab4b7ae70a7c27
+    'suppliers',
+    'customers'
 ]
 
 MIDDLEWARE = [
