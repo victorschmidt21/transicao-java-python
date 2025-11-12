@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
+
+from product.models import Product
+from customers.models import Customer
 import json
 
 
@@ -12,7 +15,7 @@ def view_index(request):
 
 def view_create(request):
     if request.method == 'POST':
-        cliente_id = request.POST.get('cliente')
+        customer_id = request.POST.get('cliente')
         products_json = request.POST.get('products')  # vem como string JSON
 
         try:
@@ -28,8 +31,10 @@ def view_create(request):
         # ...
 
         return HttpResponse("Venda cadastrada com sucesso!")
-
-    return render(request, 'create.html')
+    
+    customers = Customer.objects.all()
+    products = Product.objects.all()
+    return render(request, 'create.html', { 'products': products, 'customers': customers })
 
 def view_edit(request, id):
     return render(request, 'budget/edit.html', {'id': id})

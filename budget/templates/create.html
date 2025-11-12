@@ -1,341 +1,91 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GestãoApp</title>
+{% extends 'base.html' %}
+{% load static %}
 
-  <style>
-    /* RESET E CONFIGURAÇÕES GERAIS */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: "Inter", sans-serif;
-      background-color: #111827;
-      color: #d9d9d9;
-      height: 100vh;
-      overflow: hidden;
-    }
-    a { text-decoration: none; color: inherit; }
+{% block title %}{{ title }}{% endblock %}
 
-    /* LAYOUT PRINCIPAL */
-    .root { display: flex; width: 100%; height: 100%; }
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/responsive.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'style/budget_form.css' %}?v=1">
+{% endblock %}
 
-    /* NAV LATERAL */
-    .nav {
-      background-color: #1f2937;
-      width: 260px;
-      min-width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 2rem;
-      color: #fff;
-      transition: all 0.3s ease;
-    }
-    .nav h2 { font-weight: 700; font-size: 1.5rem; margin-bottom: 2rem; }
-    .nav ul { list-style: none; display:flex; flex-direction: column; gap: 1.5rem; }
-    .nav ul li a { font-size: 1rem; color: #d9d9d9; transition: color 0.2s ease; }
-    .nav ul li a:hover { color: #fff; }
-    .nav ul li a.selected {
-      font-weight: 700;
-      border-bottom: 2px solid #1d4ed8;
-      padding-bottom: 4px;
-      color: #fff;
-    }
+{% block extra_js %}
+<script src="{% static 'script/budget_form.js' %}?v=1"></script>
+{% endblock %}
 
-    /* CONTEÚDO PRINCIPAL */
-    .main-container { flex: 1; padding: 2rem; overflow-y: auto; display:flex; flex-direction: column; gap: 2rem; }
-    header h1 { font-size: 2rem; font-weight: 700; }
-    .content { width: 100%; max-width: 1200px; display:flex; flex-direction:column; gap: 2rem; }
+{% block content %}
+<header><h1>{{ title }}</h1></header>
 
-    /* FORMULÁRIO DE VENDA */
-    .sale-form {
-      background-color: #1f2937;
-      border-radius: 12px;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+<section class="content">
+  <div class="form-container sale_form">
+    <form method="POST">
+      {% csrf_token %}
 
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    select, input {
-      background-color: #374151;
-      border: none;
-      border-radius: 8px;
-      padding: 0.7rem 1rem;
-      color: #fff;
-      font-size: 0.95rem;
-      min-width: 180px;
-    }
-
-    .add-product-btn {
-      background-color: #7c3aed;
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .add-product-btn:hover {
-      background-color: #8b5cf6;
-    }
-
-    /* TABELA DE PRODUTOS */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #111827;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th, td {
-      padding: 1rem;
-      text-align: left;
-    }
-
-    thead {
-      background-color: #374151;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid #2e2e2e;
-    }
-
-    tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    .delete-btn {
-      background-color: #dc2626;
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .delete-btn:hover {
-      background-color: #ef4444;
-    }
-
-    .delete-btn svg {
-      width: 20px;
-      height: 20px;
-      color: #fff;
-    }
-
-    .total-row {
-      background-color: #1f2937;
-      display: flex;
-      justify-content: flex-end;
-      padding: 1rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0 0 10px 10px;
-    }
-
-    .total-row span {
-      margin-left: 1rem;
-    }
-
-    /* BOTÕES FINAIS */
-    .action-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: flex-start;
-    }
-
-    .btn-save {
-      background-color: #7c3aed;
-      border: none;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 8px;
-      padding: 0.9rem 1.5rem;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn-save:hover { background-color: #8b5cf6; }
-
-    .btn-cancel {
-      background-color: #4b5563;
-      border: none;
-      color: #fff;
-      font-weight: 500;
-      border-radius: 8px;
-      padding: 0.9rem 1.5rem;
-      cursor: pointer;
-      transition: opacity 0.2s ease;
-    }
-
-    .btn-cancel:hover { opacity: 0.85; }
-
-    @media (max-width: 768px) {
-      .form-row { flex-direction: column; align-items: stretch; }
-      select, input { width: 100%; }
-      table { font-size: 0.9rem; }
-    }
-
-    @media (max-width: 992px) {
-      .root { flex-direction: column; }
-      .nav {
-        flex-direction: row; justify-content: space-between; width:100%; padding:1rem 2rem;
-        position: sticky; top:0; z-index:10;
-      }
-      .nav ul { flex-direction: row; flex-wrap:wrap; gap:1rem; }
-      .main-container { padding:1.5rem; }
-      header h1 { font-size:1.75rem; }
-    }
-    @media (max-width: 600px) {
-      .actions { flex-direction: column; align-items: stretch; }
-      .searcher { width:100%; }
-      .searcher input { max-width:100%; }
-      table { font-size:0.9rem; }
-      th, td { padding:0.75rem; }
-    }
-  </style>
-</head>
-<body>
-  <div class="root">
-    <nav class="nav">
-      <h2>Gestão - App</h2>
-      <ul>
-        <li><a href="/client">Clientes</a></li>
-        <li><a href="/budget" class="selected">Orçamentos</a></li>
-        <li><a href="/employee">Funcionários</a></li>
-        <li><a href="/order">Vendas</a></li>
-        <li><a href="/supplier">Fornecedores</a></li>
-        <li><a href="/product">Produtos</a></li>
-      </ul>
-    </nav>
-
-    <main class="main-container">
-      <header><h1><a href="/budget">←</a> Cadastro de venda</h1></header>
-
-      <section class="content">
-        <form class="sale-form" method="POST">
-          {% csrf_token %}
-
-          <div class="form-row">
-            <select class="client-select" name="cliente">
-              <option value="1">Cliente 1</option>
-              <option value="2">Cliente 2</option>
+      <!-- Seleção de cliente e produto -->
+      <div class="form-grid">
+        <div class="form-column">
+          <div class="form-group floating-label">
+            <label for="id_cliente">Cliente</label>
+            <select name="cliente" class="client-select" id="id_cliente">
+              {% for customer in customers %}
+              <option value="{{ customer.id }}" >{{ customer.name }}</option>
+              {% empty %}
+              <option value="">Não há clientes cadastrados</option>
+              {% endfor %}
             </select>
+          </div>
+        </div>
 
-            <select class="product-select">
-              <option value="1" data-name="Bolacha Trakinas" data-price="2.50">Bolacha Trakinas</option>
-              <option value="2" data-name="Refrigerante Coca-Cola" data-price="5.00">Refrigerante Coca-Cola</option>
+        <div class="form-column">
+          <div class="form-group floating-label">
+            <label for="id_produto">Produto</label>
+            <select class="product-select" id="id_produto">
+              {% for product in products %}
+              <option value="{{ product.id }}" data-name="{{ product.description }}" data-price="{{ product.price }}">{{ product.description }} - R$ {{ product.price }}</option>
+              {% empty %}
+              <option value="">Não há produtos cadastrados</option>
+              {% endfor %}
             </select>
-
-            <input class="quantity-input" type="number" placeholder="Quantidade" min="1" value="1" />
-
-            <button class="add-product-btn">Adicionar produto</button>
           </div>
 
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>V. unitário</th>
-                <th>V. total</th>
-                <th></th>
-              </tr>
-            </thead>ç
-            <tbody class="products"></tbody>
-          </table>
-
-          <div class="total-row">
-            Valor Total: <span class="value-total-row">R$ 0,00</span>
+          <div class="form-group floating-label">
+            <label for="id_quantidade">Quantidade</label>
+            <input type="number" class="quantity-input" id="id_quantidade" min="1" value="1" />
           </div>
+        </div>
+      </div>
 
-          <input type="hidden" name="products" class="products-hidden">
+      <div class="form-actions add-product-actions">
+        <button class="btn btn-primary add-product-btn">Adicionar Produto</button>
+      </div>
 
-          <div class="action-buttons">
-            <button type="submit" class="btn-save">Cadastrar venda</button>
-            <button class="btn-cancel" type="reset">Cancelar</button>
-          </div>
-        </form>
-      </section>
-    </main>
+      <!-- Tabela de produtos -->
+      <div class="table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>V. Unitário</th>
+              <th>V. Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="products"></tbody>
+        </table>
+      </div>
+
+      <!-- Valor total -->
+      <div class="total-row">
+        Valor Total: <span class="value-total-row">R$ 0,00</span>
+      </div>
+
+      <input type="hidden" name="products" class="products-hidden">
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Cadastrar orçamento</button>
+        <a href="/budget/" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
   </div>
-
-  <script>
-    let products = [];
-
-    const productsTable = document.querySelector('.products');
-    const productSelect = document.querySelector('.product-select');
-    const productQuantity = document.querySelector('.quantity-input');
-    const totalRow = document.querySelector('.value-total-row');
-    const hiddenInput = document.querySelector('.products-hidden');
-
-    function setTableProducts() {
-      productsTable.innerHTML = "";
-
-      products.forEach((product, index) => {
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-          <td>${product.name}</td>
-          <td>${product.quantity}</td>
-          <td>R$ ${product.value.toFixed(2)}</td>
-          <td>R$ ${product.total_value.toFixed(2)}</td>
-          <td><button class="delete-btn" data-index="${index}">X</button></td>
-        `;
-
-        productsTable.appendChild(tr);
-      });
-
-      const total = products.reduce((acc, p) => acc + p.total_value, 0);
-      totalRow.textContent = `R$ ${total.toFixed(2)}`;
-
-      // Atualiza o campo oculto com os produtos em formato JSON
-      hiddenInput.value = JSON.stringify(products);
-    }
-
-    document.querySelector('.add-product-btn').addEventListener('click', e => {
-      e.preventDefault();
-
-      const selectedOption = productSelect.selectedOptions[0];
-      const name = selectedOption.dataset.name;
-      const value = parseFloat(selectedOption.dataset.price);
-      const quantity = parseInt(productQuantity.value);
-
-      if (!quantity || quantity <= 0) {
-        alert("Informe uma quantidade válida!");
-        return;
-      }
-
-      products.push({
-        id: productSelect.value,
-        name,
-        value,
-        quantity,
-        total_value: value * quantity
-      });
-
-      setTableProducts();
-    });
-
-    productsTable.addEventListener('click', e => {
-      if (e.target.classList.contains('delete-btn')) {
-        const index = e.target.dataset.index;
-        products.splice(index, 1);
-        setTableProducts();
-      }
-    });
-  </script>
-</body>
-</html>
+</section>
+{% endblock %}
