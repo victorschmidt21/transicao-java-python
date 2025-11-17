@@ -48,16 +48,19 @@
       </thead>
       <tbody>
         {% for budget in budgets %}
-        <td>{{ budget.id }}</td>
-        <td>{{ budget.customer.name }}</td>
-        <td>{{ budget.budget_date }}</td>
-        <td>R$ {{ budget.total_amount  }}</td>
-        <td>
-            <div class="action">
-              <button class="edit" aria-label="Editar orçamento {{ budget.id }}">Editar</button>
-              <button class="delete" aria-label="Excluir orçamento {{ budget.id }}">Excluir</button>
-            </div>
-        </td>
+        <tr>
+          <td>{{ budget.id }}</td>
+          <td>{{ budget.customer.name }}</td>
+          <td>{{ budget.budget_date }}</td>
+          <td>R$ {{ budget.total_amount  }}</td>
+          <td>
+              <div class="action">
+                <button class="delete" data-budget-id="{{ budget.id }}" data-budget-name="{{ budget.id }}">
+                  Excluir
+                </button>
+              </div>
+          </td>
+        </tr>
         {% empty %}
         <tr>
           <td colspan="6" class="empty-state">
@@ -84,7 +87,7 @@
       
       <div class="modal-message">
         <p>Ao excluir não será possível recuperar!</p>
-        <p class="customer-name"></p>
+        <p class="budget-name"></p>
       </div>
       
       <div class="modal-actions">

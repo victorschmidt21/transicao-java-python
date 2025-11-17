@@ -14,7 +14,6 @@ class Budget(models.Model):
     )
     budget_date = models.DateTimeField(default=timezone.now)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    notes = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Budget"

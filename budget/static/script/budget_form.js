@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${product.quantity}</td>
         <td>R$ ${product.value.toFixed(2)}</td>
         <td>R$ ${product.total_value.toFixed(2)}</td>
-        <td><button type="button" class="delete-btn" data-index="${index}">Excluir</button></td>
+        <td><button type="button" class="delete" data-index="${index}">Excluir</button></td>
       `;
 
       productsTable.appendChild(tr);
@@ -54,10 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   productsTable.addEventListener('click', e => {
-    if (e.target.classList.contains('delete-btn')) {
+    if (e.target.classList.contains('delete')) {
       const index = e.target.dataset.index;
       products.splice(index, 1);
       setTableProducts();
     }
+  });
+  
+  const form = document.querySelector('form');
+  form.addEventListener('submit', () => {
+    hiddenInput.value = JSON.stringify(products);
   });
 });
