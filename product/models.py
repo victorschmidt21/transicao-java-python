@@ -1,5 +1,5 @@
 from django.db import models
-from suppliers.models import Fornecedor
+from suppliers.models import Supplier as Fornecedor
 
 # Create your models here.
 class Product(models.Model):

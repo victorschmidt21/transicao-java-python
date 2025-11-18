@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/responsive.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'style/order_form.css' %}?v=1">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'script/order_form.js' %}?v=1"></script>
+{% endblock %}
+
+{% block content %}
+<header><h1>{{ title }}</h1></header>
+
+<section class="content">
+  <div class="form-container sale_form">
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Seleção de cliente e produto -->
+      <div class="form-grid">
+        <div class="form-column">
+          <div class="form-group floating-label">
+            <label for="id_cliente">Cliente</label>
+            <select name="cliente" class="client-select" id="id_cliente">
+              {% for customer in customers %}
+              <option value="{{ customer.id }}" >{{ customer.name }}</option>
+              {% empty %}
+              <option value="">Não há clientes cadastrados</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-column">
+          <div class="form-group floating-label">
+            <label for="id_produto">Produto</label>
+            <select class="product-select" id="id_produto">
+              {% for product in products %}
+              <option value="{{ product.id }}" data-name="{{ product.description }}" data-price="{{ product.price }}">{{ product.description }} - R$ {{ product.price }}</option>
+              {% empty %}
+              <option value="">Não há produtos cadastrados</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_quantidade">Quantidade</label>
+            <input type="number" class="quantity-input" id="id_quantidade" min="1" value="1" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions add-product-actions">
+        <button class="btn btn-primary add-product-btn">Adicionar Produto</button>
+      </div>
+
+      <!-- Tabela de produtos -->
+      <div class="table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>V. Unitário</th>
+              <th>V. Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="products"></tbody>
+        </table>
+      </div>
+
+      <!-- Valor total -->
+      <div class="total-row">
+        Valor Total: <span class="value-total-row">R$ 0,00</span>
+      </div>
+
+      <input type="hidden" name="products" class="products-hidden">
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Cadastrar orçamento</button>
+        <a href="/budget/" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
