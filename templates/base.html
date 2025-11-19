@@ -500,7 +500,7 @@
         <li><a href="/budget/" class="{% if 'budget' in request.path %}selected{% endif %}">Orçamentos</a></li>
         <li><a href="/employee/">Funcionários</a></li>
         <li><a href="/order/">Vendas</a></li>
-        <li><a href="/supplier/">Fornecedores</a></li>
+        <li><a href="/suppliers/" class="{% if 'suppliers' in request.path %}selected{% endif %}">Fornecedores</a></li>
         <li><a href="/product/">Produtos</a></li>
       </ul>
     </nav>
@@ -584,6 +584,13 @@
       campo.value = valor;
     }
 
+    function mascaraTelefone(campo) {
+      let valor = campo.value.replace(/\D/g, '');
+      valor = valor.replace(/(\d{2})(\d)/, '($1) $2');
+      valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+      campo.value = valor;
+    }
+
     // Busca CEP via ViaCEP
     function buscarCEP() {
       const cep = document.getElementById('id_zip_code').value.replace(/\D/g, '');
@@ -629,6 +636,12 @@
       const celularField = document.getElementById('id_mobile');
       if (celularField) {
         celularField.addEventListener('input', function() { mascaraCelular(this); });
+      }
+
+      // Telefone fixo
+      const telefoneField = document.getElementById('id_phone');
+      if (telefoneField) {
+        telefoneField.addEventListener('input', function() { mascaraTelefone(this); });
       }
     });
 

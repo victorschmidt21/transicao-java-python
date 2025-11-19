@@ -1,5 +1,5 @@
 from django.db import models
-from suppliers.models import Fornecedor
+from suppliers.models import Supplier
 
 # Create your models here.
 class Product(models.Model):
@@ -8,7 +8,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     qty_stock = models.IntegerField()
     supplier = models.ForeignKey(
-        Fornecedor,
+        Supplier,
         on_delete=models.CASCADE,
         db_column='supplier_id'  # mantém o mesmo nome da coluna no banco
     )
