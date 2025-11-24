@@ -1,17 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   let products = [];
 
-  const productsTable = document.querySelector('.products');
-  const productSelect = document.querySelector('.product-select');
-  const productQuantity = document.querySelector('.quantity-input');
-  const totalRow = document.querySelector('.value-total-row');
-  const hiddenInput = document.querySelector('.products-hidden');
+  const productsTable = document.querySelector(".products");
+  const productSelect = document.querySelector(".product-select");
+  const productQuantity = document.querySelector(".quantity-input");
+  const totalRow = document.querySelector(".value-total-row");
+  const hiddenInput = document.querySelector(".products-hidden");
 
   function setTableProducts() {
     productsTable.innerHTML = "";
 
     products.forEach((product, index) => {
-      const tr = document.createElement('tr');
+      const tr = document.createElement("tr");
 
       tr.innerHTML = `
         <td>${product.name}</td>
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     hiddenInput.value = JSON.stringify(products);
   }
 
-  document.querySelector('.add-product-btn').addEventListener('click', e => {
+  document.querySelector(".add-product-btn").addEventListener("click", (e) => {
     e.preventDefault();
 
     const selectedOption = productSelect.selectedOptions[0];
@@ -52,22 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
       name,
       value,
       quantity,
-      total_value: value * quantity
+      total_value: value * quantity,
     });
 
     setTableProducts();
   });
 
-  productsTable.addEventListener('click', e => {
-    if (e.target.classList.contains('delete')) {
+  productsTable.addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete")) {
       const index = e.target.dataset.index;
       products.splice(index, 1);
       setTableProducts();
     }
   });
-  
-  const form = document.querySelector('form');
-  form.addEventListener('submit', () => {
+
+  const form = document.querySelector("form");
+  form.addEventListener("submit", () => {
     hiddenInput.value = JSON.stringify(products);
   });
 });

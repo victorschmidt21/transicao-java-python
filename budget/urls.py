@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.view_index, name='budget_index'),
     path('create/', views.view_create),
     path('delete/<int:id>/', views.view_delete, name='delete'),
+    path('convert/<int:id>/', views.view_convert_to_order, name='convert_to_order'),
 ]
