@@ -1,0 +1,28 @@
+PEDIDO #{{ order.id }}
+
+Informações do Cliente:
+-----------------------
+Nome: {{ order.customer.name }}
+{% if order.customer.email %}E-mail: {{ order.customer.email }}{% endif %}
+{% if order.customer.mobile %}Celular: {{ order.customer.mobile }}{% endif %}
+
+Informações do Pedido:
+----------------------
+Data: {{ order.order_date|date:"d/m/Y H:i" }}
+Número: #{{ order.id }}
+
+Itens do Pedido:
+----------------
+{% for item in order.items.all %}
+- {{ item.product.description }}
+  Quantidade: {{ item.quantity }}
+  Preço Unitário: R$ {{ item.product.price|floatformat:2 }}
+  Subtotal: R$ {{ item.subtotal|floatformat:2 }}
+
+{% endfor %}
+TOTAL: R$ {{ order.total_amount|floatformat:2 }}
+
+---
+Este é um e-mail automático. Por favor, não responda.
+GestãoApp - Sistema de Gestão
+

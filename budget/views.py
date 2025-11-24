@@ -3,10 +3,66 @@ from django.http import HttpResponse
 from . import models
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.contrib import messages
+import logging
 
 from product.models import Product
 from customers.models import Customer
 import json
+
+logger = logging.getLogger(__name__)
+
+
+def send_budget_email(budget, request):
+    """
+    Envia e-mail ao cliente com os dados do orçamento criado.
+    
+    Args:
+        budget: Instância do modelo Budget
+        request: Objeto request para adicionar mensagens de feedback
+    """
+    try:
+        if budget.customer.email:
+            context = {'budget': budget}
+            html_content = render_to_string('emails/budget_email.html', context)
+            text_content = render_to_string('emails/budget_email.txt', context)
+            
+            subject = f'Orçamento #{budget.id} - GestãoApp'
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@gestaoapp.com')
+            to_email = [budget.customer.email]
+            
+            email = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=from_email,
+                to=to_email
+            )
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+            
+            logger.info(f'E-mail enviado com sucesso')
+            messages.success(
+                request,
+                f'Orçamento criado e e-mail enviado'
+            )
+        else:
+            messages.warning(
+                request,
+                f'Cliente não possui e-mail cadastrado.'
+            )
+    except Exception as e:
+        logger.error(
+            f'Erro ao enviar e-mail de orçamento #{budget.id}: {str(e)}',
+            exc_info=True
+        )
+        messages.error(
+            request,
+            f'Orçamento #{budget.id} criado, mas houve um erro ao enviar o e-mail: {str(e)}'
+        )
+
 
 def view_index(request):
     search = request.GET.get("search", "").strip()
@@ -54,7 +110,10 @@ def view_create(request):
         budget.total_amount = total_amount
         budget.save()
 
-        return redirect('/budget/')
+        # Envia e-mail ao cliente
+        send_budget_email(budget, request)
+
+        return redirect('budget_index')
 
     return render(request, 'create.html', {
         'products': products,

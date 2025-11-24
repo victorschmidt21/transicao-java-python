@@ -3,10 +3,66 @@ from django.http import HttpResponse
 from . import models
 from decimal import Decimal
 from django.shortcuts import get_object_or_404
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.contrib import messages
+import logging
 
 from product.models import Product
 from customers.models import Customer
 import json
+
+logger = logging.getLogger(__name__)
+
+
+def send_order_email(order, request):
+    """
+    Envia e-mail ao cliente com os dados do pedido criado.
+    
+    Args:
+        order: Instância do modelo Order
+        request: Objeto request para adicionar mensagens de feedback
+    """
+    try:
+        if order.customer.email:
+            context = {'order': order}
+            html_content = render_to_string('emails/order_email.html', context)
+            text_content = render_to_string('emails/order_email.txt', context)
+            
+            subject = f'Pedido #{order.id} - GestãoApp'
+            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@gestaoapp.com')
+            to_email = [order.customer.email]
+            
+            email = EmailMultiAlternatives(
+                subject=subject,
+                body=text_content,
+                from_email=from_email,
+                to=to_email
+            )
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+            
+            logger.info(f'E-mail de pedido enviado com sucesso')
+            messages.success(
+                request,
+                f'Pedido criado e e-mail enviado'
+            )
+        else:
+            messages.warning(
+                request,
+                f'Cliente não possui e-mail cadastrado.'
+            )
+    except Exception as e:
+        logger.error(
+            f'Erro ao enviar e-mail de pedido #{order.id}: {str(e)}',
+            exc_info=True
+        )
+        messages.error(
+            request,
+            f'Pedido #{order.id} criado, mas houve um erro ao enviar o e-mail: {str(e)}'
+        )
+
 
 def view_index(request):
     search = request.GET.get("search", "").strip()
@@ -53,6 +109,9 @@ def view_create(request):
 
         order.total_amount = total_amount
         order.save()
+
+        # Envia e-mail ao cliente
+        send_order_email(order, request)
 
         return redirect('/order/')
 
