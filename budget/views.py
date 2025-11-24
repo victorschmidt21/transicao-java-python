@@ -126,3 +126,40 @@ def view_delete(request, id):
     budget = get_object_or_404(models.Budget, id=id)
     budget.delete()
     return redirect('budget_index')
+
+def view_convert_to_order(request, id):
+    budget = get_object_or_404(models.Budget, id=id)
+    
+    # 1. Validar estoque
+    for item in budget.items.all():
+        if item.product.qty_stock < item.quantity:
+            messages.error(request, f'Estoque insuficiente para o produto {item.product.description}. Necessário: {item.quantity}, Disponível: {item.product.qty_stock}')
+            return redirect('budget_index')
+
+    # 2. Criar pedido
+    from order.models import Order, OrderItem
+    from order.views import send_order_email
+    
+    order = Order.objects.create(
+        customer=budget.customer,
+        total_amount=budget.total_amount
+    )
+    
+    # 3. Criar itens do pedido e atualizar estoque
+    for item in budget.items.all():
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            subtotal=item.subtotal
+        )
+        
+        # Atualiza estoque
+        item.product.qty_stock -= item.quantity
+        item.product.save()
+        
+    # 4. Enviar e-mail e notificar
+    send_order_email(order, request)
+    messages.success(request, f'Orçamento #{budget.id} convertido em Pedido #{order.id} com sucesso!')
+    
+    return redirect('/order/')

@@ -40,7 +40,9 @@
             <label for="id_produto">Produto</label>
             <select class="product-select" id="id_produto">
               {% for product in products %}
-              <option value="{{ product.id }}" data-name="{{ product.description }}" data-price="{{ product.price }}">{{ product.description }} - R$ {{ product.price }}</option>
+                {% if product.qty_stock > 0 %}
+                <option value="{{ product.id }}" data-name="{{ product.description }}" data-price="{{ product.price }}">{{ product.description }} - R$ {{ product.price }}</option>
+                {% endif %}
               {% empty %}
               <option value="">Não há produtos cadastrados</option>
               {% endfor %}
@@ -49,7 +51,7 @@
 
           <div class="form-group floating-label">
             <label for="id_quantidade">Quantidade</label>
-            <input type="number" class="quantity-input" id="id_quantidade" min="1" value="1" />
+            <input type="number" class="quantity-input" id="id_quantidade" min="1" value="1"/>
           </div>
         </div>
       </div>
@@ -82,8 +84,8 @@
       <input type="hidden" name="products" class="products-hidden">
 
       <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Cadastrar orçamento</button>
-        <a href="/budget/" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Cadastrar pedido</button>
+        <a href="/order/" class="btn btn-secondary">Cancelar</a>
       </div>
     </form>
   </div>

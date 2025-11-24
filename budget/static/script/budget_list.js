@@ -91,4 +91,55 @@ document.addEventListener('DOMContentLoaded', () => {
       budgetToDelete = null;
     }
   });
+
+  // --- Lógica de Conversão ---
+  const convertModal = document.getElementById('convertModal');
+  const cancelConvertButton = document.getElementById('cancelConvert');
+  const confirmConvertButton = document.getElementById('confirmConvert');
+  const convertBudgetNameElement = convertModal.querySelector('.convert-budget-name');
+  let budgetToConvert = null;
+
+  // Abrir modal ao clicar no botão "Converter"
+  document.addEventListener('click', (e) => {
+    const button = e.target.closest('.convert');
+    if (!button) return;
+
+    e.preventDefault();
+
+    budgetToConvert = {
+      id: button.getAttribute('data-budget-id'),
+      name: button.getAttribute('data-budget-name')
+    };
+
+    // Atualiza o nome no modal
+    convertBudgetNameElement.textContent = `Orçamento: #${budgetToConvert.name}`;
+
+    // Exibe o modal
+    convertModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Cancelar conversão
+  cancelConvertButton.addEventListener('click', () => {
+    convertModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    budgetToConvert = null;
+  });
+
+  // Confirmar conversão
+  confirmConvertButton.addEventListener('click', () => {
+    if (!budgetToConvert) return;
+
+    // Redireciona para a view de conversão
+    window.location.href = `/budget/convert/${budgetToConvert.id}/`;
+  });
+
+  // Fechar modal de conversão ao clicar fora dele
+  convertModal.addEventListener('click', (e) => {
+    if (e.target === convertModal) {
+      convertModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      budgetToConvert = null;
+    }
+  });
 });
