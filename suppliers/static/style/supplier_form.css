@@ -1,0 +1,211 @@
+/* ==== ESTILOS GERAIS DO FORMULÁRIO DE SUPPLIERS ==== */
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #1f2937;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-container {
+    margin: 0 1rem;
+    padding: 1.5rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    margin: 0 0.5rem;
+    padding: 1rem;
+    width: calc(100% - 1rem);
+  }
+}
+
+.form-grid {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-grid {
+    gap: 0.75rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: #d1d5db;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem !important;
+  border: 1px solid #374151 !important;
+  border-radius: 0.375rem !important;
+  background: #374151 !important;
+  color: #f9fafb !important;
+  font-size: 0.875rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.form-group input::placeholder {
+  color: #6b7280 !important;
+}
+
+/* ==== FLOATING LABEL STYLE ==== */
+
+.supplier_form .form-group.floating-label {
+  position: relative;
+  margin-bottom: 0.8rem;
+}
+
+.supplier_form .form-group.floating-label input,
+.supplier_form .form-group.floating-label select {
+  background: #374151 !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151 !important;
+  padding: 1rem 0.75rem !important;
+  border-radius: 0.375rem !important;
+  font-size: 0.875rem !important;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.supplier_form .form-group.floating-label label {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  background: transparent;
+  padding: 0 0.25rem;
+  z-index: 1;
+}
+
+/* Label do select sempre flutuando */
+.supplier_form .form-group.floating-label select + label {
+  top: -1rem !important;
+  left: 0.25rem !important;
+  font-size: 0.75rem !important;
+  transform: none !important;
+  color: #9ca3af !important;
+}
+
+.supplier_form .form-group.floating-label input:focus + label,
+.supplier_form .form-group.floating-label select:focus + label,
+.supplier_form .form-group.floating-label label.floating {
+  top: -1rem;
+  left: 0.25rem;
+  font-size: 0.75rem;
+  color: #3b82f6 !important;
+  transform: none;
+  z-index: 2;
+}
+
+.supplier_form .form-group.floating-label input:focus,
+.supplier_form .form-group.floating-label select:focus {
+  border-color: #3b82f6 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* ==== AUTOFILL FIX ==== */
+.supplier_form .form-group.floating-label input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #374151 inset !important;
+  -webkit-text-fill-color: #f9fafb !important;
+}
+
+/* ==== BOTÕES ==== */
+
+.form-actions {
+  display: flex !important;
+  gap: 1rem !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  margin-top: 1rem !important;
+}
+
+.form-actions .btn {
+  width: 140px !important;
+  height: 44px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  border-radius: 0.375rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-primary {
+  background: #3b82f6 !important;
+  color: white !important;
+  border: 0px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #2563eb !important;
+}
+
+.btn-secondary {
+  background: #374151 !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: #4b5563 !important;
+}
+
+.error-message {
+  color: #ef4444 !important;
+  font-size: 0.875rem !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Responsividade botões */
+@media (max-width: 768px) {
+  .form-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .form-actions .btn {
+    width: 100% !important;
+  }
+}

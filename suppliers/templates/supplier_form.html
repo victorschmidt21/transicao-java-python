@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/supplier_form.css' %}?v=1">
+<link rel="stylesheet" href="{% static 'style/supplier_responsive.css' %}?v=1">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'script/supplier_form.js' %}?v=1"></script>
+{% endblock %}
+
+{% block content %}
+<header><h1>{{ title }}</h1></header>
+
+<section class="content">
+  <div class="form-container">
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-grid">
+
+        <!-- COLUNA 1 -->
+        <div class="form-column">
+
+          <div class="form-group floating-label">
+            <label for="id_name">Nome</label>
+            <input 
+              type="text" 
+              name="name" 
+              id="id_name" 
+              required
+              value="{{ supplier.name|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_email">E-mail</label>
+            <input 
+              type="email" 
+              name="email" 
+              id="id_email"
+              value="{{ supplier.email|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_mobile">Celular</label>
+            <input 
+              type="text" 
+              name="mobile" 
+              id="id_mobile"
+              value="{{ supplier.mobile|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_phone">Telefone</label>
+            <input 
+              type="text" 
+              name="phone" 
+              id="id_phone"
+              value="{{ supplier.phone|default:'' }}"
+            />
+          </div>
+        </div>
+
+        <div class="form-column">
+
+          <div class="form-group floating-label">
+            <label for="id_postal_code">CEP</label>
+            <input 
+              type="text" 
+              name="postal_code" 
+              id="id_postal_code"
+              value="{{ supplier.postal_code|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_address">Endereço</label>
+            <input 
+              type="text" 
+              name="address" 
+              id="id_address"
+              value="{{ supplier.address|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_neighborhood">Bairro</label>
+            <input 
+              type="text" 
+              name="neighborhood" 
+              id="id_neighborhood"
+              value="{{ supplier.neighborhood|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_city">Cidade</label>
+            <input 
+              type="text" 
+              name="city" 
+              id="id_city"
+              value="{{ supplier.city|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_state">Estado</label>
+            <select name="state" id="id_state">
+              {% for uf, nome in states %}
+                <option 
+                  value="{{ uf }}" 
+                  {% if supplier.state == uf %}selected{% endif %}
+                >
+                  {{ nome }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_complement">Complemento</label>
+            <input 
+              type="text" 
+              name="complement" 
+              id="id_complement"
+              value="{{ supplier.complement|default:'' }}"
+            />
+          </div>
+
+          <div class="form-group floating-label">
+            <label for="id_cnpj">CNPJ</label>
+            <input 
+              type="text" 
+              name="cnpj" 
+              id="id_cnpj" 
+              required
+              value="{{ supplier.cnpj|default:'' }}"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Salvar fornecedor</button>
+        <a href="/suppliers/" class="btn btn-secondary">Cancelar</a>
+      </div>
+
+    </form>
+  </div>
+</section>
+{% endblock %}
