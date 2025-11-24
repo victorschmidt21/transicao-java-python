@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Excluir Cliente{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'customers/style/customer_delete.css' %}">
+<link rel="stylesheet" href="{% static 'customers/style/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<header><h1>Excluir Cliente</h1></header>
+
+<section class="content">
+  <div class="delete-modal">
+    <div class="form-container">
+      <div class="modal-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 8C15.16 8 8 15.16 8 24C8 32.84 15.16 40 24 40C32.84 40 40 32.84 40 24C40 15.16 32.84 8 24 8ZM24 36C17.38 36 12 30.62 12 24C12 17.38 17.38 12 24 12C30.62 12 36 17.38 36 24C36 30.62 30.62 36 24 36ZM26 28H22V32H26V28ZM26 16H22V24H26V16Z" fill="#ef4444"/>
+        </svg>
+      </div>
+      
+      <h2 class="form-title">Confirmar Exclusão</h2>
+      
+      <div class="confirmation-message">
+        <p>
+          Tem certeza que deseja excluir o cliente <strong>{{ customer.name }}</strong>?
+        </p>
+        <p class="warning-text">
+          Esta ação não pode ser desfeita.
+        </p>
+      </div>
+      
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions">
+          <a href="{% url 'customers:customer_list' %}" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'customers/script/customer_delete.js' %}"></script>
+{% endblock %}

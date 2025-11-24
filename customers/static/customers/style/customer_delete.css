@@ -1,0 +1,224 @@
+/* Estilos para a página de confirmação de exclusão */
+
+.delete-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border-radius: 16px;
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.3),
+    0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #374151;
+}
+
+.modal-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.modal-icon svg {
+  filter: drop-shadow(0 4px 8px rgba(239, 68, 68, 0.3));
+}
+
+.form-title {
+  color: #f9fafb;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.confirmation-message {
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.confirmation-message p {
+  color: #d9d9d9;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.confirmation-message p:first-child {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.confirmation-message p.warning-text,
+.confirmation-message p:last-child {
+  color: #ef4444;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.confirmation-message strong {
+  color: #f9fafb;
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  margin: 0 0.25rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #374151;
+}
+
+.btn {
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-secondary {
+  background: #374151;
+  color: white;
+  border: 1px solid #4b5563;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+  border-color: #6b7280;
+  transform: translateY(-1px);
+}
+
+/* Responsividade para página de exclusão */
+@media (max-width: 768px) {
+  .form-container {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+    border-radius: 12px;
+  }
+
+  .modal-icon {
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .confirmation-message {
+    margin-bottom: 2rem;
+  }
+
+  .confirmation-message p:first-child {
+    font-size: 1.05rem;
+  }
+
+  .form-actions {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    margin: 0.5rem;
+    padding: 1.5rem 1rem;
+    width: calc(100% - 1rem);
+    border-radius: 10px;
+  }
+
+  .modal-icon {
+    margin-bottom: 1rem;
+  }
+
+  .modal-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .form-title {
+    font-size: 1.35rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .confirmation-message p:first-child {
+    font-size: 1rem;
+  }
+
+  .confirmation-message p:last-child {
+    font-size: 0.875rem;
+  }
+
+  .confirmation-message strong {
+    font-size: 1.05rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    min-width: auto;
+  }
+}

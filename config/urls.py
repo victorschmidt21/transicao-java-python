@@ -25,4 +25,10 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('admin/', admin.site.urls),
     path('employee/', include('employees.urls')),
+    path('order/', include('order.urls')),
+    path('budget/', include('budget.urls')),
+    path('suppliers/', include('suppliers.urls')),
+    path('customers/', include('customers.urls')),
+    path('supplier/', lambda request: redirect('/customers/')),
+    path('product/', lambda request: redirect('/customers/'))
 ]
