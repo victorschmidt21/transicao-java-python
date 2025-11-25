@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'product/css/product_form.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>{{ title }}</h1>
+</header>
+
+<section class="content">
+
+    <div class="form-container">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-grid">
+
+                <div class="form-group select">
+                    <label>Descrição</label>
+                    <input type="text"
+                           name="description"
+                           value="{{ form.description.value|default:'' }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Preço</label>
+                    <input type="number"
+                           name="price"
+                           step="0.01"
+                           min="0"
+                           oninput="this.value = Math.abs(this.value)"
+                           value="{{ form.price.value|default:'' }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Quantidade em estoque</label>
+                    <input type="number"
+                           name="qty_stock"
+                           min="0"
+                           step="1"
+                           oninput="this.value = Math.abs(this.value)"
+                           value="{{ form.qty_stock.value|default:'' }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Fornecedor</label>
+                    {{ form.supplier }}
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="{% url 'product:product_list' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+/* Responsividade geral para o módulo products */
+
+@media (max-width: 360px) {
+  .form-container {
+    margin: 0 0.25rem;
+    padding: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .form-container {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .form-container {
+    max-width: 700px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .form-container {
+    max-width: 900px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

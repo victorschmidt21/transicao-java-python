@@ -27,5 +27,5 @@ urlpatterns = [
     path('employee/', lambda request: redirect('/customers/')),
     path('order/', lambda request: redirect('/customers/')),
     path('supplier/', lambda request: redirect('/customers/')),
-    path('product/', lambda request: redirect('/customers/'))
+    path('product/', include('product.urls')),
 ]

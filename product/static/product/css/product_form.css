@@ -1,0 +1,111 @@
+/* Container principal */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #1f2937;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Grid */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  color: #d1d5db;
+  font-size: 0.85rem;
+}
+
+.form-group input,
+.form-group select 
+.form-field {
+  padding: 0.75rem;
+  border: 1px solid #374151;
+  border-radius: 0.375rem;
+  background: #374151;
+  color: #f9fafb;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.form-control-select {
+  padding: 0.75rem;
+  border: 1px solid #374151;
+  border-radius: 0.375rem;
+  background: #374151;
+  color: #f9fafb;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  /* E adicione os estilos de foco também! */
+}
+
+.form-group input:focus,
+.form-group select:focus 
+.form-control-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Ações */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 120px;
+  border: none;
+  font-size: 0.875rem;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  background: #374151;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+
+
+
+
+/* COMPACTA PARA TELAS PEQUENAS */
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}

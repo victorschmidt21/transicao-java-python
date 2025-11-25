@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Produtos{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'product/css/product_list.css' %}">
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+
+<header>
+    <h1>Produtos</h1>
+</header>
+
+<section class="content">
+
+    <div class="actions">
+        <a class="btn-add" href="{% url 'product:product_create' %}">+ Adicionar Produto</a>
+
+        <form method="GET" class="searcher">
+            <input type="text"
+                   name="search"
+                   value="{{ search }}"
+                   placeholder="Pesquisar..."
+                   aria-label="Pesquisar produtos" />
+
+            <button type="submit" aria-label="Pesquisar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="6"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <div class="wrapper-table">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Estoque</th>
+                    <th>Fornecedor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>R$ {{ product.price }}</td>
+                    <td>{{ product.qty_stock }}</td>
+                    <td>{{ product.supplier.name }}</td>
+
+                    <td>
+                        <div class="action">
+                            <a href="{% url 'product:product_edit' product.id %}" class="edit">Editar</a>
+
+                            <a href="{% url 'product:product_delete' product.id %}"
+                               class="delete">Excluir</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="empty-state">
+                        Nenhum produto encontrado.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

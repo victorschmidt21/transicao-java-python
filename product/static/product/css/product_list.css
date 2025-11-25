@@ -1,0 +1,139 @@
+/* Ações */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actions > a {
+  background: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.actions > a:hover {
+  background: #2563eb;
+}
+
+/* Busca */
+.searcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1f2937;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #374151;
+}
+
+.searcher input {
+  background: transparent;
+  border: none;
+  color: #f9fafb;
+  padding: 0.5rem;
+  outline: none;
+  min-width: 200px;
+}
+
+.searcher input::placeholder {
+  color: #6b7280;
+}
+
+.searcher button {
+  background: #3b82f6;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searcher button:hover {
+  background: #2563eb;
+}
+
+/* Tabela */
+.wrapper-table {
+  background: #1f2937;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #f9fafb;
+}
+
+.data-table thead {
+  background: #374151;
+}
+
+.data-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #d1d5db;
+  border-bottom: 1px solid #4b5563;
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #374151;
+}
+
+.data-table tbody tr:hover {
+  background: #374151;
+}
+
+/* Ações da linha */
+.action {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action a,
+.action button {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.action .edit {
+  background: #3b82f6;
+  color: white;
+}
+
+.action .edit:hover {
+  background: #2563eb;
+}
+
+.action .delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.action .delete-btn:hover {
+  background: #dc2626;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #9ca3af;
+}
