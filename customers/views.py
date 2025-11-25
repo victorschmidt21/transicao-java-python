@@ -5,7 +5,9 @@ from django.db import IntegrityError
 
 from .models import Customer
 from .forms import CustomerForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def customer_list(request):
     """Lista todos os clientes"""
     try:
@@ -26,6 +28,7 @@ def customer_list(request):
         messages.error(request, 'Erro ao carregar lista de clientes')
         return render(request, 'customers/customer_list.html', {'customers': []})
 
+@login_required
 def customer_create(request):
     """Cria um novo cliente"""
     if request.method == 'POST':
@@ -54,6 +57,7 @@ def customer_create(request):
     }
     return render(request, 'customers/customer_form.html', context)
 
+@login_required
 def customer_edit(request, id):
     """Edita um cliente existente"""
     try:
@@ -90,6 +94,7 @@ def customer_edit(request, id):
         messages.error(request, 'Cliente não encontrado')
         return redirect('customers:customer_list')
 
+@login_required
 def customer_delete(request, id):
     """Exclui um cliente"""
     if request.method not in ['POST', 'DELETE']:

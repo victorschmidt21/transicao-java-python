@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import RegexValidator, EmailValidator
 
-
 class Supplier(models.Model):
     BRAZILIAN_STATES = [
         ('AC', 'Acre'),
@@ -33,6 +32,7 @@ class Supplier(models.Model):
         ('TO', 'Tocantins'),
     ]
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(validators=[EmailValidator()], blank=True, null=True)
     mobile = models.CharField(

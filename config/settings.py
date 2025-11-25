@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'employees',
     'budget',
     'suppliers',
     'customers',
@@ -135,6 +136,13 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Configuração do modelo de usuário personalizado
+AUTH_USER_MODEL = 'employees.Employee'
+
+# URLs de autenticação
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
 # Email Configuration (Gmail)
 # =============================
 # 

@@ -9,67 +9,6 @@ from django.conf import settings
 from django.contrib import messages
 import logging
 
-from product.models import Product
-from customers.models import Customer
-import json
-
-logger = logging.getLogger(__name__)
-
-
-def send_order_email(order, request):
-    """
-    Envia e-mail ao cliente com os dados do pedido criado.
-    
-    Args:
-        order: Instância do modelo Order
-        request: Objeto request para adicionar mensagens de feedback
-    """
-    try:
-        if order.customer.email:
-            context = {'order': order}
-            html_content = render_to_string('emails/order_email.html', context)
-            text_content = render_to_string('emails/order_email.txt', context)
-            
-            subject = f'Pedido #{order.id} - GestãoApp'
-            from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@gestaoapp.com')
-            to_email = [order.customer.email]
-            
-            email = EmailMultiAlternatives(
-                subject=subject,
-                body=text_content,
-                from_email=from_email,
-                to=to_email
-            )
-            email.attach_alternative(html_content, "text/html")
-            email.send()
-            
-            logger.info(f'E-mail de pedido enviado com sucesso')
-            messages.success(
-                request,
-                f'Pedido criado e e-mail enviado'
-            )
-        else:
-            messages.warning(
-                request,
-                f'Cliente não possui e-mail cadastrado.'
-            )
-    except Exception as e:
-        logger.error(
-            f'Erro ao enviar e-mail de pedido #{order.id}: {str(e)}',
-            exc_info=True
-        )
-        messages.error(
-            request,
-            f'Pedido #{order.id} criado, mas houve um erro ao enviar o e-mail: {str(e)}'
-        )
-
-
-def view_index(request):
-    search = request.GET.get("search", "").strip()
-    orders = models.Order.objects.all()
-
-    if search:
-        orders = orders.filter(id =search)
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
@@ -84,9 +23,16 @@ import logging
 from product.models import Product
 from customers.models import Customer
 import json
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
+from product.models import Product
+from customers.models import Customer
+import json
+from django.contrib.auth.decorators import login_required
+
+logger = logging.getLogger(__name__)
 
 def send_order_email(order, request):
     """
@@ -135,7 +81,7 @@ def send_order_email(order, request):
             f'Pedido #{order.id} criado, mas houve um erro ao enviar o e-mail: {str(e)}'
         )
 
-
+@login_required
 def view_index(request):
     search = request.GET.get("search", "").strip()
     orders = models.Order.objects.all()
@@ -147,7 +93,8 @@ def view_index(request):
         'orders': orders,
         'search': search,
     })
-    
+
+@login_required
 def view_create(request):
     customers = Customer.objects.all()
     products = Product.objects.all()
@@ -219,12 +166,13 @@ def view_create(request):
         'title': 'Novo pedido'
     })
 
-
+@login_required
 def view_delete(request, id):
     order = get_object_or_404(models.Order, id=id)
     order.delete()
     return redirect('order_index')
 
+@login_required
 def view_detail(request, id):
     order = get_object_or_404(models.Order, id=id)
     return render(request, 'order_detail.html', {
