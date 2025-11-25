@@ -65,6 +65,9 @@
           <td>R$ {{ order.total_amount }}</td>
           <td>
             <div class="action">
+              <a href="/order/detail/{{ order.id }}/" class="view-details-btn" aria-label="Ver detalhes do pedido {{ order.id }}">
+                Ver Detalhes
+              </a>
               <button
                 class="delete"
                 data-order-id="{{ order.id }}"

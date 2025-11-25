@@ -55,6 +55,9 @@
           <td>R$ {{ budget.total_amount  }}</td>
           <td>
               <div class="action">
+                <a href="/budget/detail/{{ budget.id }}/" class="view-details-btn" aria-label="Ver detalhes do orçamento {{ budget.id }}">
+                  Ver Detalhes
+                </a>
                 <button class="convert" data-budget-id="{{ budget.id }}" data-budget-name="{{ budget.id }}">
                   Converter
                 </button>
