@@ -16,7 +16,6 @@ from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
-@login_required
 def send_budget_email(budget, request):
     """
     Envia e-mail ao cliente com os dados do orçamento criado.
@@ -160,6 +159,19 @@ def view_convert_to_order(request, id):
         # Atualiza estoque
         item.product.qty_stock -= item.quantity
         item.product.save()
+        
+    # 4. Enviar e-mail e notificar
+    send_order_email(order, request)
+    messages.success(request, f'Orçamento #{budget.id} convertido em Pedido #{order.id} com sucesso!')
+    
+    return redirect('/order/')
+
+@login_required
+def view_detail(request, id):
+    budget = get_object_or_404(models.Budget, id=id)
+    return render(request, 'budget_detail.html', {
+        'budget': budget
+    })
         
     # 4. Enviar e-mail e notificar
     send_order_email(order, request)
