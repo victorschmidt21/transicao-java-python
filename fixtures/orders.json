@@ -1,0 +1,89 @@
+[
+    {
+        "model": "order.order",
+        "pk": 1,
+        "fields": {
+            "customer": 4,
+            "order_date": "2025-01-25T11:20:00Z",
+            "total_amount": "1149.80"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 1,
+        "fields": {
+            "order": 1,
+            "product": 10,
+            "quantity": 1,
+            "subtotal": "899.00"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 2,
+        "fields": {
+            "order": 1,
+            "product": 2,
+            "quantity": 1,
+            "subtotal": "249.90"
+        }
+    },
+    {
+        "model": "order.order",
+        "pk": 2,
+        "fields": {
+            "customer": 5,
+            "order_date": "2025-01-26T15:45:00Z",
+            "total_amount": "1588.90"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 3,
+        "fields": {
+            "order": 2,
+            "product": 3,
+            "quantity": 1,
+            "subtotal": "799.00"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 4,
+        "fields": {
+            "order": 2,
+            "product": 1,
+            "quantity": 1,
+            "subtotal": "449.90"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 5,
+        "fields": {
+            "order": 2,
+            "product": 4,
+            "quantity": 1,
+            "subtotal": "349.90"
+        }
+    },
+    {
+        "model": "order.order",
+        "pk": 3,
+        "fields": {
+            "customer": 1,
+            "order_date": "2025-01-27T10:00:00Z",
+            "total_amount": "579.80"
+        }
+    },
+    {
+        "model": "order.orderitem",
+        "pk": 6,
+        "fields": {
+            "order": 3,
+            "product": 6,
+            "quantity": 2,
+            "subtotal": "579.80"
+        }
+    }
+]

@@ -1,0 +1,99 @@
+[
+    {
+        "model": "budget.budget",
+        "pk": 1,
+        "fields": {
+            "customer": 1,
+            "budget_date": "2025-01-22T10:30:00Z",
+            "total_amount": "1049.70"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 1,
+        "fields": {
+            "budget": 1,
+            "product": 1,
+            "quantity": 2,
+            "subtotal": "899.80"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 2,
+        "fields": {
+            "budget": 1,
+            "product": 7,
+            "quantity": 1,
+            "subtotal": "189.90"
+        }
+    },
+    {
+        "model": "budget.budget",
+        "pk": 2,
+        "fields": {
+            "customer": 2,
+            "budget_date": "2025-01-23T14:15:00Z",
+            "total_amount": "4298.00"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 3,
+        "fields": {
+            "budget": 2,
+            "product": 9,
+            "quantity": 1,
+            "subtotal": "3499.00"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 4,
+        "fields": {
+            "budget": 2,
+            "product": 3,
+            "quantity": 1,
+            "subtotal": "799.00"
+        }
+    },
+    {
+        "model": "budget.budget",
+        "pk": 3,
+        "fields": {
+            "customer": 3,
+            "budget_date": "2025-01-24T09:00:00Z",
+            "total_amount": "1948.90"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 5,
+        "fields": {
+            "budget": 3,
+            "product": 8,
+            "quantity": 1,
+            "subtotal": "1299.00"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 6,
+        "fields": {
+            "budget": 3,
+            "product": 4,
+            "quantity": 1,
+            "subtotal": "349.90"
+        }
+    },
+    {
+        "model": "budget.budgetitem",
+        "pk": 7,
+        "fields": {
+            "budget": 3,
+            "product": 1,
+            "quantity": 1,
+            "subtotal": "449.90"
+        }
+    }
+]

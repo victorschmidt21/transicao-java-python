@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'employees/style/employee_form.css' %}?v=1">
+<link rel="stylesheet" href="{% static 'employees/style/responsive.css' %}?v=1">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'employees/script/employee_form_floating_labels.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>{{ title }}</h1>
+</header>
+
+<section class="content">
+    <div class="form-container customer_form">
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-grid">
+                <!-- Coluna Esquerda -->
+                <div class="form-column">
+                    <div class="form-group floating-label">
+                        {{ form.username }}
+                        <label for="{{ form.username.id_for_label }}">Nome de Usuário</label>
+                        {% if form.username.errors %}
+                        <div class="error-message">
+                            {{ form.username.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.email }}
+                        <label for="{{ form.email.id_for_label }}">E-mail</label>
+                        {% if form.email.errors %}
+                        <div class="error-message">
+                            {{ form.email.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.mobile }}
+                        <label for="{{ form.mobile.id_for_label }}">Celular</label>
+                        {% if form.mobile.errors %}
+                        <div class="error-message">
+                            {{ form.mobile.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.phone }}
+                        <label for="{{ form.phone.id_for_label }}">Telefone</label>
+                        {% if form.phone.errors %}
+                        <div class="error-message">
+                            {{ form.phone.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.cpf }}
+                        <label for="{{ form.cpf.id_for_label }}">CPF</label>
+                        {% if form.cpf.errors %}
+                        <div class="error-message">
+                            {{ form.cpf.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.rg }}
+                        <label for="{{ form.rg.id_for_label }}">RG</label>
+                        {% if form.rg.errors %}
+                        <div class="error-message">
+                            {{ form.rg.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.cargo }}
+                        <label for="{{ form.cargo.id_for_label }}">Cargo</label>
+                        {% if form.cargo.errors %}
+                        <div class="error-message">
+                            {{ form.cargo.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.access_level }}
+                        <label for="{{ form.access_level.id_for_label }}">Nível de Acesso</label>
+                        {% if form.access_level.errors %}
+                        <div class="error-message">
+                            {{ form.access_level.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Coluna Direita -->
+                <div class="form-column">
+                    <div class="form-group floating-label">
+                        {{ form.cep }}
+                        <label for="{{ form.cep.id_for_label }}">CEP</label>
+                        {% if form.cep.errors %}
+                        <div class="error-message">
+                            {{ form.cep.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.endereco }}
+                        <label for="{{ form.endereco.id_for_label }}">Endereço</label>
+                        {% if form.endereco.errors %}
+                        <div class="error-message">
+                            {{ form.endereco.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.numero }}
+                        <label for="{{ form.numero.id_for_label }}">Número</label>
+                        {% if form.numero.errors %}
+                        <div class="error-message">
+                            {{ form.numero.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.complemento }}
+                        <label for="{{ form.complemento.id_for_label }}">Complemento</label>
+                        {% if form.complemento.errors %}
+                        <div class="error-message">
+                            {{ form.complemento.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.bairro }}
+                        <label for="{{ form.bairro.id_for_label }}">Bairro</label>
+                        {% if form.bairro.errors %}
+                        <div class="error-message">
+                            {{ form.bairro.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.cidade }}
+                        <label for="{{ form.cidade.id_for_label }}">Cidade</label>
+                        {% if form.cidade.errors %}
+                        <div class="error-message">
+                            {{ form.cidade.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.estado }}
+                        <label for="{{ form.estado.id_for_label }}">Estado</label>
+                        {% if form.estado.errors %}
+                        <div class="error-message">
+                            {{ form.estado.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.password }}
+                        <label for="{{ form.password.id_for_label }}">Senha</label>
+                        {% if form.password.errors %}
+                        <div class="error-message">
+                            {{ form.password.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group floating-label">
+                        {{ form.password_confirm }}
+                        <label for="{{ form.password_confirm.id_for_label }}">Confirmar Senha</label>
+                        {% if form.password_confirm.errors %}
+                        <div class="error-message">
+                            {{ form.password_confirm.errors.0 }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if form.non_field_errors %}
+            <div class="error-message" style="margin-bottom: 1rem;">
+                {{ form.non_field_errors.0 }}
+            </div>
+            {% endif %}
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <a href="{% url 'employees:employee_list' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

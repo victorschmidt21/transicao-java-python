@@ -1,0 +1,92 @@
+[
+    {
+        "model": "customers.customer",
+        "pk": 1,
+        "fields": {
+            "name": "Carlos Eduardo Oliveira",
+            "cpf": "123.456.789-00",
+            "email": "carlos.oliveira@email.com",
+            "mobile": "(11) 98765-4321",
+            "zip_code": "01310-100",
+            "address": "Rua Augusta",
+            "neighborhood": "Consolação",
+            "city": "São Paulo",
+            "state": "SP",
+            "number": 1234,
+            "created_at": "2025-01-05T10:30:00Z",
+            "updated_at": "2025-01-05T10:30:00Z"
+        }
+    },
+    {
+        "model": "customers.customer",
+        "pk": 2,
+        "fields": {
+            "name": "Ana Paula Santos",
+            "cpf": "234.567.890-11",
+            "email": "ana.santos@email.com",
+            "mobile": "(21) 99876-5432",
+            "zip_code": "22040-020",
+            "address": "Avenida Atlântica",
+            "neighborhood": "Copacabana",
+            "city": "Rio de Janeiro",
+            "state": "RJ",
+            "number": 567,
+            "created_at": "2025-01-10T14:20:00Z",
+            "updated_at": "2025-01-10T14:20:00Z"
+        }
+    },
+    {
+        "model": "customers.customer",
+        "pk": 3,
+        "fields": {
+            "name": "Roberto Ferreira Lima",
+            "cpf": "345.678.901-22",
+            "email": "roberto.lima@email.com",
+            "mobile": "(31) 98765-1234",
+            "zip_code": "30130-010",
+            "address": "Rua da Bahia",
+            "neighborhood": "Centro",
+            "city": "Belo Horizonte",
+            "state": "MG",
+            "number": 890,
+            "created_at": "2025-01-12T09:45:00Z",
+            "updated_at": "2025-01-12T09:45:00Z"
+        }
+    },
+    {
+        "model": "customers.customer",
+        "pk": 4,
+        "fields": {
+            "name": "Juliana Costa Almeida",
+            "cpf": "456.789.012-33",
+            "email": "juliana.almeida@email.com",
+            "mobile": "(41) 99876-5432",
+            "zip_code": "80010-000",
+            "address": "Rua XV de Novembro",
+            "neighborhood": "Centro",
+            "city": "Curitiba",
+            "state": "PR",
+            "number": 123,
+            "created_at": "2025-01-18T11:00:00Z",
+            "updated_at": "2025-01-18T11:00:00Z"
+        }
+    },
+    {
+        "model": "customers.customer",
+        "pk": 5,
+        "fields": {
+            "name": "Fernando Souza Martins",
+            "cpf": "567.890.123-44",
+            "email": "fernando.martins@email.com",
+            "mobile": "(51) 98765-4321",
+            "zip_code": "90010-270",
+            "address": "Avenida Borges de Medeiros",
+            "neighborhood": "Centro Histórico",
+            "city": "Porto Alegre",
+            "state": "RS",
+            "number": 456,
+            "created_at": "2025-01-20T15:30:00Z",
+            "updated_at": "2025-01-20T15:30:00Z"
+        }
+    }
+]

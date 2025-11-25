@@ -661,12 +661,12 @@
         <li>
           <a href="/budget/" class="{% if 'budget' in request.path %}selected{% endif %}">Orçamentos</a>
         </li>
-        <li><a href="/employee/">Funcionários</a></li>
+        <li><a href="/employee/" class="{% if 'employee' in request.path %}selected{% endif %}">Funcionários</a></li>
         <li>
           <a href="/order/" class="{% if 'order' in request.path %}selected{% endif %}">Vendas</a>
         </li>
-        <li><a href="/supplier/">Fornecedores</a></li>
-        <li><a href="/product/">Produtos</a></li>
+        <li><a href="/suppliers/" class="{% if 'suppliers' in request.path %}selected{% endif %}">Fornecedores</a></li>
+        <li><a href="/product/" class="{% if 'product' in request.path %}selected{% endif %}">Produtos</a></li>
       </ul>
     </nav>
 

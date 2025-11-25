@@ -1,0 +1,102 @@
+[
+    {
+        "model": "product.product",
+        "pk": 1,
+        "fields": {
+            "description": "Mouse sem fio Logitech MX Master 3",
+            "price": "449.90",
+            "qty_stock": 45,
+            "supplier": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 2,
+        "fields": {
+            "description": "Teclado mecânico Redragon K552",
+            "price": "249.90",
+            "qty_stock": 32,
+            "supplier": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 3,
+        "fields": {
+            "description": "Monitor LG 24 polegadas Full HD",
+            "price": "799.00",
+            "qty_stock": 18,
+            "supplier": 2
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 4,
+        "fields": {
+            "description": "Headset HyperX Cloud Stinger",
+            "price": "349.90",
+            "qty_stock": 28,
+            "supplier": 2
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 5,
+        "fields": {
+            "description": "Webcam Full HD 1080p Logitech C920",
+            "price": "459.90",
+            "qty_stock": 22,
+            "supplier": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 6,
+        "fields": {
+            "description": "SSD Kingston 480GB SATA III",
+            "price": "289.90",
+            "qty_stock": 55,
+            "supplier": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 7,
+        "fields": {
+            "description": "Memória RAM DDR4 8GB 3200MHz",
+            "price": "189.90",
+            "qty_stock": 67,
+            "supplier": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 8,
+        "fields": {
+            "description": "Placa de Vídeo GTX 1650 4GB",
+            "price": "1299.00",
+            "qty_stock": 12,
+            "supplier": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 9,
+        "fields": {
+            "description": "Notebook Dell Inspiron 15 i5",
+            "price": "3499.00",
+            "qty_stock": 8,
+            "supplier": 2
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 10,
+        "fields": {
+            "description": "Impressora HP LaserJet Pro",
+            "price": "899.00",
+            "qty_stock": 15,
+            "supplier": 2
+        }
+    }
+]

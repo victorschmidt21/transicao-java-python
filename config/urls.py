@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from config import views
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -27,8 +28,7 @@ urlpatterns = [
     path('employee/', include('employees.urls')),
     path('order/', include('order.urls')),
     path('budget/', include('budget.urls')),
-    path('suppliers/', include('suppliers.urls')),
     path('customers/', include('customers.urls')),
-    path('supplier/', lambda request: redirect('/customers/')),
+    path('suppliers/', include('suppliers.urls')),
     path('product/', lambda request: redirect('/customers/'))
 ]
