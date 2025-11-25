@@ -1,0 +1,28 @@
+ORÇAMENTO #{{ budget.id }}
+
+Informações do Cliente:
+----------------------
+Nome: {{ budget.customer.name }}
+{% if budget.customer.email %}E-mail: {{ budget.customer.email }}{% endif %}
+{% if budget.customer.mobile %}Celular: {{ budget.customer.mobile }}{% endif %}
+
+Informações do Orçamento:
+-------------------------
+Data: {{ budget.budget_date|date:"d/m/Y H:i" }}
+Número: #{{ budget.id }}
+
+Itens do Orçamento:
+-------------------
+{% for item in budget.items.all %}
+- {{ item.product.description }}
+  Quantidade: {{ item.quantity }}
+  Preço Unitário: R$ {{ item.product.price|floatformat:2 }}
+  Subtotal: R$ {{ item.subtotal|floatformat:2 }}
+
+{% endfor %}
+TOTAL: R$ {{ budget.total_amount|floatformat:2 }}
+
+---
+Este é um e-mail automático. Por favor, não responda.
+GestãoApp - Sistema de Gestão
+

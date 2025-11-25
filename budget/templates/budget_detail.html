@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalhes do Orçamento #{{ budget.id }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/budget_detail.css' %}">
+<link rel="stylesheet" href="{% static 'style/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="header-content">
+        <h1>Detalhes do Orçamento #{{ budget.id }}</h1>
+        <a href="{% url 'budget_index' %}" class="btn-back">Voltar para Lista</a>
+    </div>
+</header>
+
+<section class="content">
+    <div class="budget-info-card">
+        <div class="info-group">
+            <label>Cliente</label>
+            <p>{{ budget.customer.name }}</p>
+        </div>
+        <div class="info-group">
+            <label>Data do Orçamento</label>
+            <p>{{ budget.budget_date|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="info-group">
+            <label>Email</label>
+            <p>{{ budget.customer.email|default:"Não informado" }}</p>
+        </div>
+        <div class="info-group total-group">
+            <label>Valor Total</label>
+            <p class="total-value">R$ {{ budget.total_amount }}</p>
+        </div>
+    </div>
+
+    <div class="wrapper-table">
+        <h2 class="section-title">Itens do Orçamento</h2>
+        <table class="data-table" role="table" aria-label="Itens do orçamento">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in budget.items.all %}
+                <tr>
+                    <td>{{ item.product.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>R$ {{ item.product.price }}</td>
+                    <td>R$ {{ item.subtotal }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-state">Nenhum item neste orçamento.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
