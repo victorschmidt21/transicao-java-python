@@ -3,7 +3,9 @@ from django.http import HttpResponse
 from . import models
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def view_index(request):
     search = request.GET.get("search", "").strip()
     suppliers = models.Supplier.objects.all()
@@ -19,6 +21,7 @@ def view_index(request):
         'search': search,
     })
 
+@login_required
 def view_create(request):
     if request.method == "POST":
         models.Supplier.objects.create(
@@ -41,11 +44,13 @@ def view_create(request):
         "states": models.Supplier.BRAZILIAN_STATES,
     })
 
+@login_required
 def view_delete(request, id):
     supplier = get_object_or_404(models.Supplier, id=id)
     supplier.delete()
     return redirect("/suppliers/")
 
+@login_required
 def view_edit(request, id):
     supplier = get_object_or_404(models.Supplier, id=id)
 

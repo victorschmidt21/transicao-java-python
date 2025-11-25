@@ -23,6 +23,7 @@ import logging
 from product.models import Product
 from customers.models import Customer
 import json
+from django.contrib.auth.decorators import login_required
 
 logger = logging.getLogger(__name__)
 
@@ -171,6 +172,7 @@ def view_delete(request, id):
     order.delete()
     return redirect('order_index')
 
+@login_required
 def view_detail(request, id):
     order = get_object_or_404(models.Order, id=id)
     return render(request, 'order_detail.html', {

@@ -58,7 +58,7 @@ def employee_create(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Funcionário cadastrado com sucesso!')
-                return redirect('employee_list')
+                return redirect('employees:employee_list')
         
         except Exception as e:
             messages.error(request, f'Erro ao cadastrar funcionário: {str(e)}')
@@ -86,7 +86,7 @@ def employee_edit(request, pk):
                 if form.is_valid():
                     form.save()
                     messages.success(request, 'Funcionário atualizado com sucesso!')
-                    return redirect('employee_list')
+                    return redirect('employees:employee_list')
             
             except Exception as e:
                 messages.error(request, f'Erro ao atualizar funcionário: {str(e)}')
@@ -103,7 +103,7 @@ def employee_edit(request, pk):
     
     except Exception as e:
         messages.error(request, 'Funcionário não encontrado')
-        return redirect('employee_list')
+        return redirect('employees:employee_list')
 
 
 @admin_required
@@ -111,7 +111,7 @@ def employee_delete(request, pk):
     """View para excluir um funcionário"""
     if request.method not in ['POST', 'DELETE']:
         messages.error(request, 'Método não permitido')
-        return redirect('employee_list')
+        return redirect('employees:employee_list')
     
     try:
         employee = get_object_or_404(Employee, pk=pk)
@@ -122,4 +122,4 @@ def employee_delete(request, pk):
     except Exception as e:
         messages.error(request, 'Erro ao excluir funcionário')
     
-    return redirect('employee_list')
+    return redirect('employees:employee_list')
