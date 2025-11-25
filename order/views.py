@@ -224,3 +224,9 @@ def view_delete(request, id):
     order = get_object_or_404(models.Order, id=id)
     order.delete()
     return redirect('order_index')
+
+def view_detail(request, id):
+    order = get_object_or_404(models.Order, id=id)
+    return render(request, 'order_detail.html', {
+        'order': order
+    })

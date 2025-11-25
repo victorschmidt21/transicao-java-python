@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalhes do Pedido #{{ order.id }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/order_detail.css' %}">
+<link rel="stylesheet" href="{% static 'style/responsive.css' %}">
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="header-content">
+        <h1>Detalhes do Pedido #{{ order.id }}</h1>
+        <a href="{% url 'order_index' %}" class="btn-back">Voltar para Lista</a>
+    </div>
+</header>
+
+<section class="content">
+    <div class="order-info-card">
+        <div class="info-group">
+            <label>Cliente</label>
+            <p>{{ order.customer.name }}</p>
+        </div>
+        <div class="info-group">
+            <label>Data do Pedido</label>
+            <p>{{ order.order_date|date:"d/m/Y H:i" }}</p>
+        </div>
+        <div class="info-group">
+            <label>Email</label>
+            <p>{{ order.customer.email|default:"Não informado" }}</p>
+        </div>
+        <div class="info-group total-group">
+            <label>Valor Total</label>
+            <p class="total-value">R$ {{ order.total_amount }}</p>
+        </div>
+    </div>
+
+    <div class="wrapper-table">
+        <h2 class="section-title">Itens do Pedido</h2>
+        <table class="data-table" role="table" aria-label="Itens do pedido">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Preço Unitário</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.description }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>R$ {{ item.product.price }}</td>
+                    <td>R$ {{ item.subtotal }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-state">Nenhum item neste pedido.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
